@@ -1,0 +1,532 @@
+﻿%#!platex tls.tex
+\chapter{\TeX とその周辺\zdash 応用}
+
+\begin{abstract}
+いつも何気なく呪文のように呼び出している\LaTeX コマンドたち．
+この章では，\LaTeX 周辺の日陰で過ごすプログラムたちに焦点を
+当ててみようと思います．
+\end{abstract}
+
+\section{基本的なコマンドの詳細}
+普段は何気なく \type{platex filename.tex} 等としてタイプセットしている
+かも知れませんが，\LaTeX に関わる基本的なコマンドも，他の Unix ツールと
+同じように\Z{コマンドラインオプション}を持っています．
+
+ここでは\LaTeX に関わる基本的なコマンドのオプションとその使い方などを紹
+介します．
+
+\subsection{\TeX の正当なインストール方法}
+現在，Windows，Macintosh，Linux などの多くの OS において，\TeX の
+導入は簡単になりました．しかし，\TeX の\Z{インストール}方法や\Z{動作原理}を
+知らないと，思いがけない箇所でつまずく事になりかねません．
+\TeX がどのようにインストールされるのかを知る事により，それらに
+関わる問題を発見しやすくなります．
+
+まず，\TeX は \Prog{Pascal} に似た言語 \Prog{WEB} で書かれています．
+要するにKnuthが\TeX を開発しやすいようにPascalに修正を加えた言語です．
+
+\begin{append}
+ この節はまだ執筆途中．
+\end{append}
+
+%&ref(http://www.ring.gr.jp/pub/text/CTAN/systems/web2c/web.tar.gz);
+%&ref(http://www.ring.gr.jp/pub/text/CTAN/systems/web2c/web2c.tar.gz);
+
+%tex.web --(weave)--> tex.tex --(tex/pdftex)--> tex.dvi/tex.pdf
+%tex.web --(tangle)--> tex.p + tex.pool
+
+%Pascal はちょっと，という型のために ctangle/cweave というファイル名
+%になります．
+
+%tex.web --(weave)--> 
+%tex.web tex.ch --(tangle)--> tex.p + tex.pool
+%tie: marge or apply WEB change files
+
+しかし，実際には移植性等の種々の問題に対応するために現在は WEB2C という
+機構を使って WEB から C のソースを生成するようになっています．
+
+\subsection{インストール}
+
+\TeX をインストールする際に，
+歴史的には \Prog{initex} と \Prog{vartex} の２つが提供されていましたが，
+今は \TeX にその両方の機能が実装されています．
+
+\begin{InTerm}
+ \type{tex -ini latex.ini \\dump}
+ \type{cp tex latex}
+\end{InTerm}
+近年であれば上記のようにコマンドを打てばインストールは出来るでしょう．
+
+専ら te\TeX に含まれる \prog{fmtutil}を使って
+\begin{InTerm}
+ \type{fmtutil --all}
+\end{InTerm}
+とするのが一番簡単でしょう．
+
+\XeTeX をインストールするというような状況であれば
+\begin{InTerm}
+ \type{xeinitex xetex.ini \\dump}
+\end{InTerm}
+とすれば \fl{xetex.fmt}, \fl{xetex.pool}の二つが作成されるので，
+これを適当な場所，例えば\dir{/usr/local/share/texmf/web2c/}に
+コピーします．
+
+%&ref(http://macptex.appi.keio.ac.jp/~uchiyama/macosx/)
+
+initex は現在 tex -ini のシンボリックリングで，
+vartex は現在 tex のシンボリックリンクであるからして，
+\begin{InTerm}
+ \type{ptex -ini -kanji=sjis -jobname=platex-sjis platex.ini}
+ \type{ptex -fmt=platex-sjis -progname=platex -kanji=sjis filename}
+\end{InTerm}
+\fl{platex-sjis.fmt}というファイルを作成しておけば，
+EUC で make された \pTeX も SJIS の \fl{filename.tex} を
+タイプセットできるようになるでしょう．
+
+
+%\begin{quote}
+% \Fl{bibitex.web}, \Fl{mf.web}, \Fl{mp.web}, \Fl{tangle.web}, \Fl{tex.web}, 
+% \Fl{weave.web}. 
+%\end{quote}
+
+%tex.web -> tex.p, tex.tex -> tex.pdf
+%
+%initex virtex (symbolic link) tex --ini 
+%--fmt
+%
+%tex.pool
+%
+%plain.base
+%plain.fmt
+%plain.mem
+%
+%platex-euc.fmt
+%platex-jis.fmt
+%platex-sjis.fmt
+%
+%platex.fmt -> argv[0]
+
+%texmf.cnf ももちろん参照されるが，これは
+%
+%tex.fmt ファイルの生成
+%
+%.mf -> tfm, pk, gf, pfb, 
+%
+%mktexftm  -> fmtutil: utility for maintaining TeX format files
+%mktexlsr
+%mktexmf
+%mktexpk
+%mktextfm
+%
+%fmtutil --byfmt formatname
+%fmtutil --byhyphen hyphenfile (teTeX)
+%fmtutil.cnf configuration file for fmtutil (teTeX)
+
+
+
+\subsection{\TeX/\pTeX}
+\TeX を実行するにはコンソールから \type{tex} とすれば，次のように
+表示されます．
+\begin{OutTerm}
+This is TeX, Version 3.14159 (Web2C 7.4.5)\\
+**
+\end{OutTerm}
+これはユーザとの\Z{インタラクティブ}な操作を許容している状態です．
+ここで何らかのファイル名 \Va{filename}{tex} の \va{filename} を
+指定すると，ファイルが存在する場合は，それがタイプセットされます．
+存在しない場合は次のようにエラーを吐きます．
+\begin{OutTerm}
+! I can't find file `<filename>'.\\
+<*> <filename>\\
+Please type another input file name: 
+\end{OutTerm}
+とりあえず終了したければ `\str{*}' が表示されている状態で \C{bye} と
+打ち込む事になります．\TeX は実行時の引数としてタイプセットする原稿の
+ファイル名を指定します．
+\begin{Syntax}
+ \str{tex} \opa{オプション} \opa{ファイル名[.tex]}
+\end{Syntax}
+原稿ファイル名の拡張子である \suf{tex} は省略できます．
+
+\begin{description}
+ \item[\copt{-file-line-error-style}]
+    print file:line:error style messages
+ \item[\copt{-interaction=STRING}]      
+    set interaction mode (STRING = batchmode, nonstopmode, scrollmode,
+	    errorstopmode)
+ \item[\copt{-jobname=STRING}]          set the job name to STRING
+ \item[\copt{-parse-first-line}]        parse of the first line of the input file
+ \item[\copt{-progname=STRING}]         set program (and fmt) name to STRING
+ ですから，例えば \type{ptex -progname=platex} とすれば，\str{platex} を
+ 実行したのと同じ効果が得られる事になります．
+ \item[\copt{-recorder}]                enable filename recorder
+ \item[\copt{-shell-escape}]            enable \write18{SHELL COMMAND}
+ \item[\copt{-src-specials}]            insert source specials into the DVI file
+ \item[\copt{-src-specials=WHERE}]      insert source specials in certain places of
+                          the DVI file. WHERE is a comma-separated value
+                          list: cr display hbox math par parend vbox
+ \item[\copt{-translate-file=TCXNAME}]  use the TCX file TCXNAME
+ \item[\copt{-help}]                    display this help and exit
+ \item[\copt{-version}]                 output version information and exit
+\end{description}
+
+
+
+\subsection{\LaTeX/\pLaTeX}
+
+
+
+\subsection{xdvi/dviout}
+
+
+
+\section{Ghostscript}
+
+\subsection{pdf2ps}
+
+\GS 付属のツールで PDF ファイルを \PS ファイルに変換する．変換精度はあま
+り満足の行くものではないことが多い．
+
+\prog{pdf2ps} を使うよりは \Xpdf utilities の \prog{pdftops} を使う方が
+良い．
+
+
+\subsection{ps2pdf}
+
+\GS 付属の \PS を PDF に変換するためのプログラム．
+
+GNU \GS 7.07 などを使っており，和文書体を用いている場合は
+\begin{InTerm}
+\type{ps2pdf14 -dNOKANJI file.ps file.pdf}
+\end{InTerm}
+などとすると \Z{Ryumin-Light} などの（和文）書体を埋め込まないように処理する．
+
+AFPL Ghostscript 8.50 では TrueType 系のフォントを埋め込むことができるよ
+うになった (今までバグのために出来なかった) ので
+\begin{InTerm}
+ \type{ps2pdf14 file.ps file.pdf}
+\end{InTerm}
+としても良い．
+
+Mac~OS~Xにはpstopdf というAppleオリジナルのPS-PDF 変換のためのコマンド
+がある．
+
+Vine~Linux では \prog{ps2jpdf} という便利なコマンドもある．
+
+
+\section{TDS}
+
+\TeX\ directory structure
+
+\section{Kpathsearch}
+
+kpsewhich 
+
+\section{texdoc}
+
+
+
+\section{WEB2C}
+
+WEB や tangle/weave
+
+\subsection{WEB}
+
+`Web' と表記しない限り，\TeX の世界において WEB は Knuth が開発した「プログラムのソースコードと説明文書の混在形式を実現する文書整形言語」となります\footnote{Knuth が計算機科学領域で使用されていない 3 文字からなる英単語を参考に Knuth の義母（妻 Jill の母親） Wilda Ernestine Bates のイニシャルから命名したものです．}．
+
+WEB には Pascal 風（若干の訛りと方言がある） の「ソースコード」と フォー
+マットの決められた「説明文」が埋め込まれています．例としては次のようなも
+のがあります．
+\begin{Pascaly}
+% This line is a comment.
+@* Introduction.
+@p function round_decimals(@!k:small_number) : scaled; {converts a decimal fraction}
+var $a$:integer; {the accumulator}
+begin $a$ := $0$;
+  while $k > 0$ do
+    begin decr($k$); $a$ := ($a$ + dig[$k$]*two) div $10$; 
+    end;
+  round_decimals := ($a + 1$) div $2$; 
+end;
+@* Indexes.
+\end{Pascaly}
+生徒が begin と end の使い方を良く間違えると，Knuth 先生は嘆いておられま
+した．このようにして記述された WEB ファイルは weave と tangle によって処
+理できます．
+
+現在は WEB ではなく C 言語で記述する CWEB が主流になっているそうです．
+CWEB での手順を紹介します．次のようにすると \suf{web} ファイルから マニュ
+アル\fl{test.tex} が生成されます．
+\begin{InTerm}
+ \type{cweave test.w}
+\end{InTerm}
+次のようにすると \suf{web} ファイルから C ソースコード \fl{test.c} が生
+成されます．
+\begin{InTerm}
+ \type{ctangle test.w}
+\end{InTerm}
+ですから， \fl{Makefile}においての依存関係は次のようになります．
+\begin{Makefile}
+.w.tex:
+	cweave $*
+.tex.dvi:	
+	tex $<
+.w.dvi:
+	make $*.tex
+	make $*.dvi
+.w.c:
+	ctangle $*
+.w.o:
+	make $*.c
+	make $*.o
+.c.o: 
+	cc $(CFLAGS) -c $*.c
+.w:
+	make $*.c
+	cc $(CFLAGS) $*.c -o $*
+\end{Makefile}
+`\str{.tex.dvi}' に関しては
+\begin{Makefile}
+.tex.pdf:
+	pdftex $< && pdftex $<
+\end{Makefile}
+としてしまって PDF を作成するようにしても良いでしょう．
+
+詳しい情報は CTAN の \dir{web/c_cpp/cweb/examples/} を参照する事で
+相当な \TeX nician になれる事でしょう．
+
+
+\subsection{weave}
+
+weave とは WEB で記述された「ソースコード＋説明」混在文書からソースコー
+ドのマニュアルを作成するツールです．weave にはプログラムを明瞭な文書に織
+り上げる (weave) という意味があります．
+
+例えば，次のようなファイル \fl{test.web} が存在するとします．
+\begin{Pascaly}
+% This line is a comment.
+@* Introduction.
+@p function round_decimals(@!k:small_number) : scaled; {converts a decimal fraction}
+var $a$:integer; {the accumulator}
+begin $a$ := $0$;
+  while $k > 0$ do
+    begin decr($k$); $a$ := ($a$ + dig[$k$]*two) div $10$; 
+    end;
+  round_decimals := ($a + 1$) div $2$; 
+end;
+@* Indexes.
+\end{Pascaly}
+パーセント `\%' で記述される行はコメントとして扱われます．\str{@*} は節
+見出しの始まりで，ドットが出現するまで見出し語として扱われます． このよ
+うなファイルを
+\begin{InTerm}
+ \type{weave test.web}
+\end{InTerm}
+とすると test.tex が作成されます．この生成されたマニュアルを
+\begin{InTerm}
+ \type{pdftex test.tex}
+ \type{pdftex test.tex}
+\end{InTerm}
+として処理すると PDF ファイル \fl{test.pdf} が生成されます．面白いので，ご自
+身で処理してみてください（もちろん，目次・索引の自動生成が行なわれます）．
+
+
+\subsection{tangle}
+
+\prog{tangle} とは \Z{WEB} で記述された「ソースコード＋説明」文書から，ソースコード部分を手繰り寄せるツールです．
+
+例えば，次のような \fl{test.web} が存在するとします．
+\begin{Pascaly}
+% This line is a comment.
+@* Introduction.
+@p function round_decimals(@!k:small_number) : scaled; {converts a decimal fraction}
+var $a$:integer; {the accumulator}
+begin $a$ := $0$;
+  while $k > 0$ do
+    begin decr($k$); $a$ := ($a$ + dig[$k$]*two) div $10$; 
+    end;
+  round_decimals := ($a + 1$) div $2$; 
+end;
+@* Indexes.
+\end{Pascaly}
+
+これを tangle プログラムで
+\begin{InTerm}
+ \type{tangle test.web}
+\end{InTerm}
+とすると 次のような \fl{test.p} が作成されます．
+\begin{InText}
+{1:}function rounddecimals(k:smallnumber):scaled;var a:integer;
+begin a:=0;while k>0 do begin decr(k);a:=(a+dig[k]*two)div 10;end;
+rounddecimals:=(a+1)div 2;end;{:1}
+\end{InText}
+インデントなどがされていないので，読みづらいですが，機械が必要とするソー
+スコードだけが抜き出されます．
+
+
+
+\subsection{weave}
+
+
+
+\section{PDF 操作}
+
+Dvipdfmx, Xpdf utilities, 
+
+\section{\texorpdfstring \eTeX {eTeX}}
+Knuth が開発した \TeX を拡張したもの．Knuth の時代の計算機環境と今の計算
+機環境は結構違うので，\TeX に対して贅沢にリソースを分けることができるので，
+レジスタ数なども増えている．プリミティブの追加も行なわれているはず．
+
+
+\section{\texorpdfstring \pdfTeX {pdfTeX}}
+
+
+\section{\texorpdfstring \XeTeX {XeTeX}}
+
+
+\section{多言語組版への道}
+
+\subsection{Aleph}
+
+\TeX で多言語組版を実現する一つの方法として Omega を使うことが考えられた
+が \TeX をベースにするよりも \eTeX をベースにした方が良いだろうという事に
+なった． \eTeX をベースにユニコードベースで多言語組版を実現する plain \TeX
+用のプログラムが Aleph であり， \LaTeX 用は Lamed と呼ばれる．
+
+\section{Lambda}
+
+\TeX で眞の多言語組版を実現するのはちょっと難しい．組み方向の違い，行送
+りの違い，ハイフネーションの違い，放言の違い，スペルの違い，字並びの違い，
+スペーシングの違い等など例をあげればきりがない．例えば， LR, RL, TD の組
+み方向が混在する文書をやるのは相当手続きが多い． unicode をベースにユー
+ザーが入力メソッドを意識することなく，あらゆる言語をあらゆる放言つきで組
+版出来れば便利だ．ということで Omega (plain \TeX 用) が開発された．もち
+ろん \LaTeX 用が Lambda というわけだ．しかし，現在開発は\ldots \eLaTeX
+をマージした Lamed が続いている模様．
+
+\section{Lamed}
+
+\TeX で多言語組版(表意文字圏を含む)を実現する一つの方法として Omega や
+Lambda を用いることも考えられるが，\eTeX をベースにした方が良いだろうとい
+う流れになってきた．\eTeX をベースに unicode による多言語組版を実現するプ
+ログラムが Lamed である，これは \LaTeX 用で， \TeX 用は Aleph という名前で
+ある．
+
+
+
+\section{周辺プログラム}
+
+\subsection{mkTeXfmt}
+
+fmtutils の一種で \TeX の フォーマットファイルを作成するために使われる．
+
+\subsection{mkTeXtfm}
+
+\MF のソース \Va{file}{mf} から TeX プログラムがフォントを扱う上で必要に
+なるメトリクス情報を保存した \Va{file}{tfm} を作成するためのプログラム．
+\begin{InTerm}
+\type{mktextfm --destdir /tmp/ cmr10 }
+\end{InTerm}
+などとすれば \dir{/tmp} に\fl{cmr10.tfm} なるファイルが作成される．
+
+日本語の等の場合は JFM というファイルが必要になったり， Omega/Lambda な
+どの場合は異なる等の話もある．
+
+
+\subsection{mkTeXpk}
+
+\MF ソースから PK フォントを生成するためのプログラム．dviware などは \MF
+のソース \Va{file}{mf} を必要とするわけではなくビットマップのフォントデー
+タが格納された PK フォントを必要とすることになる．
+\begin{InTerm}
+ \type{mktexpk --destdir /tmp/ cmr10}
+\end{InTerm}
+などとすると \dir{/tmp} に \fl{cmr10.600pk} なるファイルが作成される．通
+常は解像度 (dpi) を指定することになり，標準では 600\,dpi となり，ファイル
+名が \fl{cmr10.600pk} のように拡張子が `解像度pk' になっている．標準的な
+出力ディレクトリは \dir{$texmf/fonts/pk} など．昨今の dviware は PK フォ
+ントではなく，解像度に依存しない TrueType フォントや PostScript Type 1,
+OpenType フォント等の表示に対応しているため，少々 obsolete なフォント形
+式と言える．
+
+\subsection{mktexlsr}
+
+\TeX に関わるファイル郡が格納されているディレクトリ
+\dir{/usr/share/texmf/} などで
+\begin{InTerm}
+ \type{ls -R /usr/share/texmf >ls-R}
+\end{InTerm}
+としたもの．\TeX に関わるファイルは年々増大し，プログラム自身もどこにど
+のファイルがあるのかを検索するのが面倒になってきた．そのため，あらかじめ
+どこにどのファイルがあるのかを記述したファイル \Fl{ls-R} が必要になって
+きた．その後 \type{ls -R} の出力結果が環境により異なるという事情から
+\prog{mktexlsr} という専用のプログラムが配布されるようになった．新たに
+\TeX が格納されているディレクトリにファイルを追加した場合，Linux 系 OS
+であれば
+\begin{InTerm}
+\type{mktexlsr}
+\end{InTerm}
+とする．しかし，近年はハードディスク等も高速になっていることから，
+\fl{ls-R}を必要としないので
+\begin{InTerm}
+ \type{rm `kpsewhich --expand-path='$TEXMFMAIN'`/ls-R}
+\end{InTerm} 
+として \fl{ls-R} を削除してしまっても構わない．むしろ，削除した方がファ
+イルの追加を気がねなく行なえるかもしれない．
+
+\TeX のファイルが格納されているディレクトリは \emph{TDS: TeX Directory
+Structures}という指針に乗っ取り，ディレクトリ構造を決めることが望ましい
+事になっている．
+
+\section{\texorpdfstring \ConTeXt {ConTeXt}}
+
+\subsection{\TeX Exec}
+
+\ConTeXt 付属のタイプセット支援スクリプト．
+\begin{InTerm}
+ \type{texexec --pdfarrange --result=output.pdf file1.pdf file2.pdf file3.pdf}
+\end{InTerm}
+などとすると \fl{file1.pdf}, \fl{file2.pdf}, \fl{file3.pdf} 
+を一つの PDF \fl{output.pdf} に編集できる．
+
+\section{\TeX info}
+
+GNU project で推奨しているマニュアル作成または文書作成用の 
+plain TeX をベースにしたシステム．例えば，次のようなファイル 
+\fl{file.texi} があったとする（拡張子は \suf{txi}とか \suf{texi}とか
+いろいろある）．
+\begin{InText}
+ \def\lang{jp}
+ \input texinfo
+ @settitle Hello, Texinfo!
+ \bye
+\end{InText}
+これを
+\begin{InTerm}
+ \type{ptex file.texi}
+ \type{texindex file.??}
+ \type{ptex file.texi}
+ \type{dvipdfmx file.texi}
+\end{InTerm}
+などとすることにより PDF に変換できる．これ以外に
+ texi2dvi, texi2pdf, texi2html などが用意されている．
+
+
+\subsection{texindex}
+
+Texinfo のファイル \fl{file.txi} を
+\begin{InTerm}
+ \type{tex file.txi}
+\end{InTerm}
+としても索引などは生成されないため，別途 索引を生成するために texindex
+プログラムを実行する必要が或．
+\begin{InTerm}
+\type{texindex file.??}
+\end{InTerm}
+そうして，もう一度
+\begin{InTerm}
+ \type{tex file.txi}
+\end{InTerm}
+とすることで \fl{file.dvi} を作成できる．
+

@@ -1,0 +1,135 @@
+\ProvidesPackage{jlisting}[2004/03/24 Thor]
+\newcount\lst@nextchar
+\let\lst@@ProcessSpace\lst@ProcessSpace
+\def\lst@ProcessSpace#1{%
+   \lst@check@chartype{#1}%
+      \lst@@ProcessSpace
+      \lst@whitespacetrue}
+\let\lst@@ProcessLetter\lst@ProcessLetter
+\def\lst@ProcessLetter#1#2{%
+   \lst@check@chartype{#2}%
+      {\lst@@ProcessLetter{#1}}%
+      \relax}
+\let\lst@@ProcessDigit\lst@ProcessDigit
+\def\lst@ProcessDigit#1#2{%
+   \lst@check@chartype{#2}%
+      {\lst@@ProcessDigit{#1}}%
+      \relax}
+\let\lst@@ProcessOther\lst@ProcessOther
+\def\lst@ProcessOther#1#2{%
+   \lst@check@chartype{#2}%
+      {\lst@@ProcessOther{#1}}%
+      \relax}
+\let\lst@@ProcessTabulator\lst@ProcessTabulator
+\def\lst@ProcessTabulator#1{%
+   \lst@check@chartype{#1}%
+      \lst@@ProcessTabulator
+      \relax}
+\def\lst@check@chartype#1#2#3{%
+   \edef\@tempa{\lst@nextchar=`\string#1\relax}%
+   \afterassignment\remove@to@nnil
+   \@tempa\@nnil
+   #2%
+   \ifnum\lst@nextchar<\@cclvi
+      #3%
+   \else
+      \lst@ifletter \else \lst@OutputOther \fi
+      \lst@whitespacefalse
+      \expandafter\lst@AppendJchar
+   \fi
+   #1}
+\def\lst@AppendJchar#1#2{%
+   \lst@check@chartype{#2}%
+      {\advance\lst@length\@ne\lst@Append{#1}}%
+      \relax}
+\def\lst@check@chartype@BOL#1{%
+   \edef\@tempa{\lst@nextchar=`\string#1\relax}%
+   \afterassignment\remove@to@nnil
+   \@tempa\@nnil
+   \ifnum\lst@nextchar<\@cclvi\else
+      \lst@whitespacefalse
+      \expandafter\lst@AppendJchar
+   \fi
+   #1}
+\def\lst@InputListing#1{%
+   \begingroup
+      \lsthk@PreSet \gdef\lst@intname{#1}%
+      \expandafter\lstset\expandafter{\lst@set}%
+      \lsthk@DisplayStyle
+      \catcode\active=\active
+      \lst@Init\relax \let\lst@gobble\z@
+      \lst@SkipToFirst
+      \lst@ifprint \def\lst@next{\lst@get@filecontents{#1}}%
+      \else        \let\lst@next\@empty
+      \fi
+      \lst@next
+      \lst@DeInit
+   \endgroup}
+\newread\lst@inputfile
+\def\lst@get@filecontents#1{%
+   \let\lst@filecontents\@empty
+   \openin\lst@inputfile=#1\relax
+   \let\@lst@get@filecontents@prevline\relax
+   \lst@get@filecontents@loop
+   \closein\lst@inputfile
+   \lst@filecontents\empty}
+\def\lst@get@filecontents@loop{%
+   \read\lst@inputfile to\@lst@get@filecontents@currline
+   \ifx\@lst@get@filecontents@prevline\relax\else
+      \expandafter\expandafter\expandafter\def
+      \expandafter\expandafter\expandafter\lst@filecontents
+      \expandafter\expandafter\expandafter{%
+         \expandafter\lst@filecontents\@lst@get@filecontents@prevline}%
+   \fi
+   \let\@lst@get@filecontents@prevline\@lst@get@filecontents@currline
+   \ifeof\lst@inputfile\else
+      \expandafter\lst@get@filecontents@loop
+   \fi}
+%%% [この処理も，相当強引です．]
+\def\lst@BOLGobble{%
+   \ifnum\lst@gobble>\z@
+      \@tempcnta\lst@gobble\relax
+      \expandafter\lst@BOLGobble@
+   \else
+      \expandafter\lst@check@chartype@BOL
+   \fi}
+\def\lst@BOLGobble@#1{%
+   \let\lst@next#1%
+   \ifx \lst@next\relax\else
+   \ifx \lst@next\lst@MProcessListing\else
+   \ifx \lst@next\lst@ProcessFormFeed\else
+   \ifx \lst@next\lstenv@backslash
+      \let\lst@next\lstenv@BOLGobble@@
+   \else
+      \let\lst@next\lst@BOLGobble@@
+      \ifx #1\lst@ProcessTabulator
+         \advance\@tempcnta-\lst@tabsize\relax
+         \ifnum\@tempcnta<\z@
+            \lst@length-\@tempcnta \lst@PreGotoTabStop
+         \fi
+      \else
+         \edef\@tempa{\lst@nextchar=`\string#1\relax}%
+         \@tempa
+         \ifnum\lst@nextchar<\@cclvi\else
+            \advance\@tempcnta\m@ne
+         \fi
+         \advance\@tempcnta\m@ne
+      \fi
+   \fi \fi \fi \fi
+   \lst@next}
+\def\lst@BOLGobble@@{%
+   \ifnum\@tempcnta>\z@
+      \expandafter\lst@BOLGobble@
+   \else
+      \expandafter\lst@check@chartype@BOL
+   \fi}
+
+\endinput
+%File:jlist.sty
+% 奥村晴彦氏の掲示板の「汎用的な浮動体」という一連の
+% 書き込みから転載しました。
+% http://www.matsusaka-u.ac.jp/~okumura/texfaq/qa/21172.html
+% http://www.matsusaka-u.ac.jp/~okumura/texfaq/qa/21184.html
+% http://www.matsusaka-u.ac.jp/~okumura/texfaq/qa/21189.html
+% http://www.matsusaka-u.ac.jp/~okumura/texfaq/qa/21197.html
+% copyrightは吉永哲美氏にあるようなものです。

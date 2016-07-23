@@ -1,0 +1,168 @@
+﻿%
+\RequirePackage{csquotes}\relax
+%
+\makeatletter
+% 連絡先変わりました．
+\contact{%
+   \parbox{.9\textwidth}{Th\'or Watanabe\\%
+   Graduate School of System Information Science\\%
+   Future University-Hakodate\\%
+   thor@tex.dante.jp\\%
+   \url{http://tex.dante.jp/}}}%
+%
+% 人名
+\def\person@shi{氏}
+\def\hito#1#2{#1#2\person@shi}
+\def\Hito#1#2{%
+  \index{人名!#1#2}%
+  \index{#1#2}#1#2\person@shi}
+\def\Person#1#2{#1 #2}
+\def\person#1#2{%
+  \index{人名!#2, #1}%
+  \index{#2, #1}#1 #2\person@shi}
+%
+% 相互参照
+\def\chaplab#1{\label{chap:#1}}%     章のラベル
+\def\chapref#1{第~\ref{chap:#1}~章}% 章の参照
+\def\seclab#1{\label{sec:#1}}%       節のラベル
+\def\secref#1{\ref{sec:#1}~節}%      節の参照
+\def\figlab#1{\label{fig:#1}}%       図のラベル
+\def\figref#1{図~\ref{fig:#1}}%      図の参照
+\def\tablab#1{\label{tab:#1}}%       表のラベル
+\def\tabref#1{表~\ref{tab:#1}}%     表の参照
+\def\equlab#1{\label{equ:#1}}%       式のラベル
+\def\equref#1{式~\ref{equ:#1}}%     式の参照
+\def\applab#1{\label{app:#1}}%       付録のラベル
+\def\appref#1{付録~\ref{app:#1}}%    付録の参照
+\def\pref#1{\pageref{#1}ページ}%     ページの参照
+\def\exelab#1{\label{exe:#1}}%       例題ラベル
+\def\exeref#1{例題~\ref{exe:#1}}%    例題参照
+\def\problab#1{\label{prob:#1}}%     問題ラベル
+\def\probref#1{問題~\ref{prob:#1}}%  問題参照
+
+% 略称
+\def\gnu      {\textsc{Gnu}\xspace}
+\def\gpl      {\gnu General Public License\xspace}
+\def\fdl      {\gnu Free Documentation License\xspace}
+\def\jfdl     {\gnu フリー文書利用許諾契約書}
+\def\thefdl   {The \gnu Free Documentation License}
+\urldef \webCopyLeft    \url {http://www.gnu.org/copyleft/}
+\urldef \webGNU         \url {http://www.gnu.org/}
+\newcommand*\ascii          {Ascii\xspace}
+%
+% プログラム名
+\DeclareRobustCommand*\TeXforHT{\TeX4HT\xspace}
+\DeclareRobustCommand*\LaTeXtoHTML{\LaTeX2HTML\xspace}
+\DeclareRobustCommand*\dviout{Dviout\xspace}
+\DeclareRobustCommand*\ConTeXt{Con\TeX t\xspace}
+\DeclareRobustCommand*\TtH{T\hskip.1em\lower.3ex\hbox{T}H\xspace}
+\DeclareRobustCommand*\Xpdf{Xpdf\xspace}
+%
+% ディレクトリ・フォルダの表記
+\def\dir{\begingroup \urlstyle{tt}\Url}
+%
+% 一般的な code の設定
+\lstset{%
+  language={C},%
+  backgroundcolor={},%
+  basicstyle={\small\ttfamily},%
+  identifierstyle={\small\ttfamily},%
+  commentstyle={\small\normalfont},%
+  keywordstyle={\small\ttfamily\bfseries},%
+  ndkeywordstyle={\small\ttfamily},%
+  stringstyle={\small\sffamily},
+  frame={tb},
+  breaklines=true,
+  columns=fullflexible,%
+  numbers=left,%
+  stepnumber=5,%
+  xrightmargin=0zw,%
+  xleftmargin=1.5zw,%
+  numberstyle={\scriptsize},%
+  numbersep=1zw,%
+  lineskip=-0.5ex%
+}
+%
+% GNU Make 用
+\lstnewenvironment{Makefile}{%
+  \lstset{language=Make,%
+    showtabs,tab=\rightarrowfill,%
+    stepnumber=0,%
+    basicstyle={\small\ttfamily}}}{}%
+%
+% Pascal 風のコード用
+\lstnewenvironment{Pascaly}{%
+  \lstset{language=Pascal,%
+    showtabs,tab=\rightarrowfill,%
+    stepnumber=0,%
+    mathescape,%
+    keywordstyle={\small\bfseries},%
+    basicstyle={\small\rmfamily}}}{}%
+%
+\def\@sect#1#2#3#4#5#6[#7]#8{%
+  \ifnum #2>\c@secnumdepth
+    \let\@svsec\@empty
+  \else
+    \refstepcounter{#1}%
+    \protected@edef\@svsec{\@seccntformat{#1}\relax}%
+  \fi
+  \@tempskipa #5\relax
+  \ifdim \@tempskipa<\z@
+    \def\@svsechd{%
+      #6{\hskip #3\relax
+      \@svsec #8}%
+      \csname #1mark\endcsname{#7}%
+      \addcontentsline{toc}{#1}{%
+        \ifnum #2>\c@secnumdepth \else
+          \protect\numberline{\csname the#1\endcsname}%
+        \fi
+        #7}}% 目次にフルネームを載せるなら #8
+  \else
+    \begingroup
+      \interlinepenalty \@M % 下から移動
+%%%%%%
+    \ifnum #2=\@ne
+      \colorbox[cmyk]{0,0,0,\my@default@gray}{%
+        \parbox\ftextwidth{#6{\@hangfrom{\@svsec}#8}%
+          \hfil}%
+        }\@@par%
+    \else
+        \ifnum #2=\tw@
+           {\large$\blacktriangledown$\hskip3pt}%
+           #6{\@hangfrom{\hskip #3\relax\@svsec}%
+              \relax#8\@@par}%
+        \else
+           #6{\@hangfrom{\hskip #3\relax\@svsec}#8\@@par}%
+        \fi
+    \fi
+    \endgroup
+%%%%%
+    \csname #1mark\endcsname{#7}%
+    \addcontentsline{toc}{#1}{%
+      \ifnum #2>\c@secnumdepth \else
+        \protect\numberline{\csname the#1\endcsname}%
+      \fi
+      #7}% 目次にフルネームを載せるならここは #8
+  \fi
+  \@xsect{#5}}
+%
+\renewcommand{\printokuduke}{{%
+  \if@twocolumn \onecolumn \else \clearpage \fi
+  \thispagestyle{empty}%
+  \null\vfill
+  \parindent=0pt
+  {\LARGE\bfseries\@title\hfill}\par\vskip1zw
+  {\hfill\copyright\space\@author\space 2005, 2006}\par\vskip1zw
+  {\hrule width\textwidth height1.5pt}\par\vskip1zw
+  \begin{tabular}{ll}
+    発行日 & 2005年 05 月  29 日 第 0.01 版 配布\\
+           & 2006年 08 月  31 日 第 0.10 版 配布\\
+    編集   & {\@author}                     \\
+  \end{tabular}\hfill
+  {\hrule width\textwidth height1.5pt}%
+  }%
+}
+%
+\AtBeginDocument{\def\Gin@extensions{.pdf,.bmp,.png,.jpg,.jpeg,.eps,.ps}}
+\makeatother
+%

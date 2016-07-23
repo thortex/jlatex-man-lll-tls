@@ -1,0 +1,1786 @@
+% \iffalse meta-comment
+% Copyright (C) 2004 by Thor Watanabe
+% 
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.2 of this license or (at your option) any later
+% version.  The latest version of this license is in:
+% 
+%    http://www.latex-project.org/lppl.txt
+% 
+% and version 1.2 or later is part of all distributions of
+% LaTeX version 1999/12/01 or later.
+% 
+% \fi
+% \CheckSum{0}
+% \iffalse
+%<lll>\NeedsTeXFormat{LaTeX2e}
+%<lll>\ProvidesPackage{lll}
+%<lll>                        [20005/05/29 v0.1a Thor]
+%<*driver>
+\documentclass{jsarticle}
+\usepackage{doc}
+\usepackage{shortvrb}
+\newcommand{\marg}[1]{{\mbox{$\langle$}\string #1\mbox{$\rangle$}}}
+\MakeShortVerb|
+\EnableCrossrefs
+\CodelineIndex
+\DoNotIndex{\textsf,\bs,\texttt,\glossary,\index,\zdash}
+\DoNotIndex{\def,\DescribeMacro,\@ifnextchar,\mbox,\newcommand}
+\DoNotIndex{\hspace,\normalfont,\newfont,\string,\protect}
+\DoNotIndex{\@ne,\@for,\@tempcnta,\@tempcntb,\addvspace}
+\DoNotIndex{\advance,\al,\begin,\begingroup,\bfseries}
+\DoNotIndex{\char,\color,\colorbox}
+\DoNotIndex{\DeclareRobustCommand}
+\DoNotIndex{\endlist,\varbatim,\endvarbatim}
+\DoNotIndex{\fullwidth,\hbox,\hskip,\immediate}
+\DoNotIndex{\itshape,\kern,\member,\newenvironment}
+\DoNotIndex{\parskip,\par,\parindent,\put,\ref,\relax}
+\DoNotIndex{\rightmargin,\rmfamily,\small,\TeX,\textcolor}
+\DoNotIndex{\textsl,\ttfamily,\upshape,\usepackage}
+\DoNotIndex{vector,\vskip}
+\DoNotIndex{\end}
+\DoNotIndex{\endcsname}
+\DoNotIndex{\hfill}
+\DoNotIndex{\hfil}
+\DoNotIndex{\hss}
+\DoNotIndex{\ifhum}
+\DoNotIndex{\let}
+\DoNotIndex{\RequirePackage}
+\DoNotIndex{\z@}
+%
+\addtolength{\textwidth}{-1in}
+\addtolength{\evensidemargin}{1in}
+\addtolength{\oddsidemargin}{1in}
+\addtolength{\marginparwidth}{1in}
+\setlength\marginparsep{10pt}
+\setlength\marginparpush{0pt}
+\setcounter{StandardModuleDepth}{1}
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{1}
+%
+\GetFileInfo{lll.sty}
+\begin{document}
+  \DocInput{lll.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \title{『好き好き{\LaTeXe} シリーズ』用マクロ集}
+% \author{渡辺徹}
+% \date{2005/03/17}
+% \maketitle
+% \tableofcontents
+% \StopEventually{}
+%    \begin{macrocode}
+%<*lll>
+%    \end{macrocode}
+%
+%
+% \subsection{表題情報}
+%
+% \DescribeMacro{\jFileDate}
+% \DescribeMacro{\jFileVersion}
+% 冊子の配布日とバージョン情報を保持する|\FileDatej|と
+% |\FileVerjou|を定義します．
+%    \begin{macrocode}
+% filename: lll.sty
+% author:   Thor Watanabe
+% email:    thor(at)tex(dot)dante(dot)jp
+% date:     2005/05/29
+% version:  0.1a
+% copying:  lppl
+% webpage:  http://tex.dante.jp/typo/
+%
+%\global\let\@jFileVersion\@empty
+%\def\jFileVersion#1{\gdef\@jFileVersion{#1}}
+\def\jFileDate{\number\year/\number\month/\number\day}
+%
+\def\jFileVersion{0.1}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\author}
+% \DescribeMacro{\title}
+% \DescribeMacro{\date}
+% |\author|と|\title|と|\date|は固定です．
+%    \begin{macrocode}
+\author{渡辺徹}
+\title{好き好き{\LaTeXe} 周辺ツール編}
+\date{\today}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\contact}
+% \DescribeMacro{\@contact}
+% 冊子の作成者への連絡先を定義します．これは
+% 表紙に使われます．
+%    \begin{macrocode}
+% \contact{Author's Address}, \FileVerj{<verison>}
+% 後記のtitlepage環境に必要
+\global \let \@contact \@empty
+\def \contact#1{\gdef\@contact{#1}}
+%
+\contact{%
+   \parbox{.9\textwidth}{Th\'or Watanabe\\%
+   Dept.\ of System Information Science\\%
+   Future University-Hakodate\\%
+   thor(at)tex(dot)dante(dot)jp\\%
+   \url{http://tex.dante.jp/}}}%
+%    \end{macrocode}
+%
+% 
+% \subsection{必要となるパッケージ群}
+%
+% \DescribeMacro{\RequirePackage}
+% 『好き好き』が必要とするマクロたちです．
+% マクロを読み込むときに|\ifusedvipdfm|等のブール値を
+% 使ってパッケージオプションを判定します．これは主原稿
+% で定義されています．\textsf{listings}は様々な場面で
+% 使われます．\textsf{jlisting}は通称しっぽ愛好家氏より
+% 頂いたものです．\textsf{okumacro}からは|\ruby|，
+% |\yen|，|\key|，|\return|，|\MARU|，
+% |\JTeX|，|\JLaTeX|，|screen|環境などを
+% 借用しています．箇条書き用の|namelist|環境や
+% 文献一覧を出力する|mybibliography|環境も使っています．
+% \textsf{url}パッケージからは|\url|命令などを使っています．
+% 
+%    \begin{macrocode}
+%\RequirePackage{listings}%http://www.atscire.de/
+%\RequirePackage{jlisting}%http://www.geocities.jp/unzoo_sa/
+%\RequirePackage{okumacro}%http://www.matsusaka-u.ac.jp/~okumura/
+%\RequirePackage{emathN}% http://emath.s40.xrea.com/
+
+\RequirePackage[usenames]{color}[1999/02/16]%
+\RequirePackage{graphicx}[1999/02/16]%
+\RequirePackage{epic}\relax%
+\RequirePackage{eepic}\relax%
+\RequirePackage{pict2e}[2004/02/19]%
+%
+\RequirePackage{amsmath}[2000/07/18]
+\RequirePackage{amssymb}[2002/01/22]
+\RequirePackage{array}[2003/12/17]
+\RequirePackage{bm}[2004/02/26]
+\RequirePackage{booktabs}[2003/03/28]
+\RequirePackage{calc}[1998/07/07]
+\RequirePackage{cmtt}[1996/05/25]
+\RequirePackage{delarray}[1994/03/14]
+\RequirePackage{dcolumn}[2001/05/28]
+%\RequirePackage{dropping}[1997/06/12]
+\RequirePackage{enumerate}[1999/03/05]
+\RequirePackage{fancybox}[2000/09/19]
+\RequirePackage{ifthen}[2001/05/26]
+\RequirePackage{labelfig}\relax
+\RequirePackage{latexsym}[1998/08/17]
+\RequirePackage{leftidx}\relax
+\RequirePackage{listings}[2004/02/13]% v1.2
+\RequirePackage{longtable}[2004/02/01]
+\RequirePackage{makeidx}[2000/03/29]
+\RequirePackage{manfnt}\relax
+\RequirePackage{mflogo}[1999/03/10]
+\RequirePackage{multicol}[2004/02/14]
+\RequirePackage{multirow}\relax%
+\RequirePackage{tabularx}[1999/01/07]
+\RequirePackage{theorem}[1995/11/23]
+\RequirePackage[obeyspaces,spaces]{url}\relax
+\RequirePackage{verbatim}[2003/08/22]
+\RequirePackage{wrapfig}[2003/01/31]
+\RequirePackage{xspace}[1997/10/13]
+%
+\RequirePackage{jlisting}[2004/03/24]
+%
+%\ifx\pfmtname\@undefined\else
+%   \IfFileExists{emathN.sty}{%
+%      \RequirePackage {emathN}%
+%      \AtBeginDocument{\resettagform}%
+%   }{}%
+%\fi
+%
+\ifx\pfmtname\@undefined\else
+  \RequirePackage {okumacro}[2003/11/24]%
+\fi
+% The cite package breaks hyperref
+%\RequirePackage {cite}\relax
+% Font settings
+\RequirePackage[T1]{fontenc}%
+\RequirePackage{textcomp}%
+% type1 font is better.
+\IfFileExists{type1ec.sty}{%
+   \RequirePackage{type1ec}%
+}{%
+   \IfFileExists{lmodern.sty}{%
+      \RequirePackage{lmodern}%
+   }{%
+      \IfFileExists{txfonts.sty}{%
+         \RequirePackage{txfonts}%
+      }{%
+         \IfFileExists{pxfonts.sty}{%
+            \RequirePackage{pxfonts}%
+         }{%
+            \IfFileExists{type1cm.sty}{%
+               \RequirePackage{type1cm}%
+            }{%
+               \PackageWarning{You may get type3 fonts in your\space
+                  \jobname.pdf or \jobname.ps Please try to get\space
+                  type1 font package(s)}%
+            }%
+         }%
+      }%
+   }%
+}%
+%
+%    \end{macrocode}
+%
+% \DescribeMacro{\hogeHyper}
+% \textsf{hyperref}を使っていた場合にはPDF文書情報やPDFしおり
+% 等の設定が必要になりますので，|\hogeHyper|で判断しています．
+%    \begin{macrocode}
+\ifx\hogeHyper\@undefined\else
+\newif\ifHyper
+\Hypertrue
+\RequirePackage[dvipdfm,%
+   bookmarks=true,%
+   bookmarkstype=toc,%
+   bookmarksnumbered=false,%
+   bookmarksopen=true,%
+   colorlinks=true,%
+   linkcolor=blue,%
+   citecolor=blue,%
+   filecolor=blue,%
+   menucolor=magenta,%
+   pagecolor=blue,%
+   urlcolor=blue,%
+   plainpages=false%
+]{hyperref}
+\special{pdf:docinfo <<
+   /Author   ( Thor Watanabe )
+   /Title    ( Love Love LaTeX2e )
+   /Subject  ( For Useful tools related LaTeX)
+   /Creator  ( pLaTeX2e with hyperref and dvipdfmx )
+   /Keywords ( TeX, LaTeX, LaTeX2e, pTeX, pLaTeX, pLaTeX2e) >>}%
+\AtBeginDocument{%
+  \def\theHProb{\theHchapter.\arabic{Prob}}%
+  \def\theHExe{\theHchapter.\arabic{Prob}}%
+  \def\theHItem{\theHchapter.\arabic{Item}}%
+}
+\fi
+%    \end{macrocode}
+% 
+% \subsection{半面パラメータなど} 
+% 
+% \DescribeMacro{\ftextwidth}
+% \DescribeMacro{\ffullwidth}
+% |\fboxsep| や |\fboxrule| の幅を引いた値を |\ftextwidth| などに
+% 代入します。
+% \DescribeMacro{\marginparpush}
+% \DescribeMacro{\footskip}
+% 
+%
+%    \begin{macrocode}
+\addtolength{\topmargin}{-2.5\baselineskip}
+\addtolength{\textheight}{3\baselineskip}
+% \ftextwidth
+\newlength{\ftextwidth}
+\setlength{\ftextwidth}{\textwidth}
+\addtolength{\ftextwidth}{-2\fboxsep}
+\addtolength{\ftextwidth}{-2\fboxrule}
+% \ffullwidth
+\newlength{\ffullwidth}
+\setlength{\ffullwidth}{\fullwidth}
+\addtolength{\ffullwidth}{-2\fboxsep}
+\addtolength{\ffullwidth}{-2\fboxrule}
+% 
+\setlength\marginparpush{.5\baselineskip}
+\setlength\footskip{3zw}
+%    \end{macrocode}
+%
+% \DescribeMacro{\headfont}
+% 見出し用のフォントスタイルを指定する |\headfont| を再定義します。
+%
+%    \begin{macrocode}
+\ifx\headfont\@undefined\else
+  \renewcommand\headfont{\normalfont\gtfamily\sffamily}%\bfseries}%
+\fi
+%    \end{macrocode}%
+%
+% \subsection{\textsf{listings}/\textsf{wrapfig}用の設定}
+%
+% \DescribeMacro{\lstset}
+% \DescribeMacro{\lstlistlistingname}
+% \DescribeMacro{\lstlistingname}
+% \textsf{listings}用の設定です．|\lstset|ですべての
+% \textsf{listings}の環境の設定をします．
+%    \begin{macrocode}
+\lstset{%
+  language={C},%
+  basicstyle={\small\ttfamily},%
+  identifierstyle={\small\ttfamily},%
+  commentstyle={\small\ttfamily},%
+  keywordstyle={\small\ttfamily\bfseries},%
+  ndkeywordstyle={\small\ttfamily},%
+  stringstyle={\small\sffamily},
+  breaklines=true,
+  columns=fullflexible,%
+  numbers=left,%
+  xrightmargin=0zw,%
+  xleftmargin=1.5zw,%
+  numberstyle={\scriptsize},%
+  numbersep=1zw,%
+  lineskip=-0.5ex%
+}
+\ifdraft
+\newenvironment{inputex}{\bgroup\small\verbatim}{\endverbatim\egroup}
+\newenvironment{inputex*}{\bgroup\small\verbatim}{\endverbatim\egroup}
+\else
+\lstnewenvironment{inputex}{%
+  \lstset{%
+     language={[LaTeX]TeX},
+     backgroundcolor={\color[cmyk]{0,0,0,\my@default@gray}},%
+     frame={tb},
+     stepnumber=none,%
+  }}{}
+\lstnewenvironment{inputex*}{
+  \lstset{%
+     language={[LaTeX]TeX},
+     showspaces,
+  }}{}%
+\fi
+%
+\def\lstlistlistingname{ソースコード目次}
+\def\lstlistingname{ソースコード}
+%    \end{macrocode}
+%
+% \DescribeMacro{\wrapoverhang}
+%
+% \textsf{wrapfig} 用にパラメーターの設定をします。
+%    \begin{macrocode}
+\setlength{\wrapoverhang}{\fullwidth}
+\addtolength{\wrapoverhang}{-\textwidth}
+\addtolength{\wrapoverhang}{\marginparsep}
+\addtolength{\wrapoverhang}{-2zw}
+%    \end{macrocode}
+%
+% \subsection{自作マクロ}
+%
+% \DescribeMacro{\bs}
+% バックスラッシュにアクセスするために|\bs|命令を定義します．
+% 様々な場面で使われますがタイプライタ体での出力のときにしか
+% 使いません．
+%    \begin{macrocode}
+%\newcommand*{\bs}{\symbol{'134}}
+\let \bs \@backslashchar
+\let \rb \@charrb
+\let \lb \@charlb
+\let \vs \textvisiblespace
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\cmd}
+% 文書中で{\LaTeX}のコマンドを参照するときに使われる命令です．
+% |\cmd{newcommand}|のように使います．先頭にバックスラッ
+% シュが付加されます．これは前述の|\bs|命令が使われます．
+% \DescribeMacro{\C}
+% {\LaTeX}のコマンドを「索引」に追加する場合は|\cmd|ではなく
+% |\C|命令を使うようにします．|\C|はアット`@'を含んでも
+% 良いことにしています．
+%    \begin{macrocode}
+\newcommand*{\cmd}[1]{\texttt{\bs#1}}
+% \Cmd is an obsolete command.
+%\newcommand*{\Cmd}[1]{%
+%   \glossary{#1@\texttt{\hspace*{-1.2ex}{\protect\bs#1}}}%
+%   \texttt{\bs#1}}
+%
+\newcommand*\C[1]{%
+  \def\at@mark{@}%
+  \let\out@char\@empty
+  \@tfor\char@temp:=#1\do{%
+     \if\at@mark\char@temp
+      \edef\out@char{\out@char"\at@mark}%"
+     \else
+       \edef\out@char{\out@char\char@temp}%
+     \fi}%
+  \edef\gloss@hoge{\noexpand\glossary{%
+     \out@char\string @\string%
+     \hspace*{-1.2ex}\string\texttt{\string\BS\space\out@char}}}%
+%  \edef\gloss@hoge{\noexpand\glossary{コマンド!%
+%     \out@char\string @\string\hspace*{-1.2ex}%
+%     \string\texttt{\string\BS\space\out@char}}}%
+  \gloss@hoge %\cindex@hoge
+  \texttt{\BS#1}}%
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\env}
+% {\LaTeX}の環境型のコマンドを文書中で参照するときは
+% |\env|命令を使います．
+% \DescribeMacro{\Env}
+% その環境を索引に追加したければ|\E|命令を使います．
+%    \begin{macrocode}
+\newcommand*{\env}[1]{\texttt{#1}}%
+\newcommand*{\E}[1]{%
+   \index{環境!#1@\texttt{#1}}%
+   \glossary{#1かんきよう@\texttt{#1}環境}%
+   \texttt{#1}}%
+%    \end{macrocode}
+%
+% \DescribeMacro{\word}
+% 語句は|\word|命令の中に入れます．
+% \DescribeMacro{\Z}
+% 語句を索引に追加するときは|\Z|命令を使います．
+%    \begin{macrocode}
+\newcommand*{\word}[1]{#1}
+\newcommand*{\Z}[1]{\index{#1}#1}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\zdash}
+%  索引中に挿入する倍角ダッシュを|\protect|するために
+%  |\zdash|命令を定義しています．
+% \DescribeMacro{\indindz}
+% \DescribeMacro{\zindind}
+%  階層的な索引には「親」と「子」を指定してエントリさせます．
+%    \begin{macrocode} 
+\DeclareRobustCommand*\zdash{\char\jis"213D\kern-.5zw%"
+   \char\jis"213D\kern-.5zw\char\jis"213D\relax}
+\newcommand*\zindind[2]{\index{#1!\zdash#2}}
+\newcommand*\indindz[2]{\index{#1!#2\zdash}}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\prog}
+% プログラム名を参照する場合は|\prog|命令を使います．
+%    \begin{macrocode}
+% \DescribeMacro{\Prog}
+% プログラム名を索引に追加する場合は|\Prog|命令を使います．
+\newcommand*{\prog}{\@ifnextchar[{\yomi@prog}{\@prog}}%]
+\newcommand*{\@prog}[1]{#1}
+\newcommand*{\yomi@prog}[2][]{#2}
+\newcommand*{\Prog}{\@ifnextchar[{\yomi@Prog}{\@Prog}}
+\newcommand*{\@Prog}[1]{%
+   \index{プログラム!#1}\index{#1}#1}
+\newcommand*{\yomi@Prog}[2][]{%
+   \index{プログラム!#1@\protect#2}%
+   \index{#1@\protect#2}#2}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\fl}
+% ファイル名を参照する場合は|\fl|を使います．
+% \DescribeMacro{\Fl}
+% ファイル名を参照し索引に追加するときは|\Fl|を使います．
+%    \begin{macrocode}
+\newcommand*{\fl}[1]{\texttt{#1}}
+\newcommand*{\Fl}[1]{%
+   \index{ファイル!#1@\texttt{#1}}%
+   \index{#1@\texttt{#1}}\texttt{#1}}
+%    \end{macrocode}
+%
+%
+%
+% \DescribeMacro{\cls}
+% しつこいようですが，ドキュメントクラスを参照するときは
+% |\cls|命令を使います。
+% \DescribeMacro{\D}
+% クラスを索引にも追加するときは|\D|命令を使います．
+%    \begin{macrocode}
+\newcommand*{\cls}[1]{\textsf{#1}}
+\newcommand*{\D}[1]{%
+   \index{クラス!#1@\textsf{#1}}%
+   \index{#1@\textsf{#1}}\textsf{#1}}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\sty}
+% マクロパッケージは|\sty|で参照します．
+% \DescribeMacro{\Y}
+% さらに索引にも追加するには|\Sty|命令を使います．
+%    \begin{macrocode}
+\newcommand*{\sty}[1]{\textsf{#1}}
+\newcommand*{\Y}[1]{%
+   \index{パッケージ!#1@\textsf{#1}}%
+   \index{#1@\textsf{#1}}\textsf{#1}}%
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\bst}
+% 文献スタイルを参照するときは|\bst|命令を使います．
+% \DescribeMacro{\Bst}
+% 索引追加は|\Bst|です。
+%    \begin{macrocode}
+\newcommand*\bibi[1]{%
+  \index{#1@\texttt{#1} (\BibTeX)}\texttt{#1}%
+  \index{BibTeX@\BibTeX!#1@\texttt{#1}}%
+}
+\newcommand*\bubu[1]{%
+  \index{#1@\texttt{#1}（文献の種類）}\texttt{#1}%
+  \index{ぶんけんのしゅるい@文献の種類!#1@\texttt{#1}}%
+}
+%
+\newcommand*{\bst}[1]{\textsf{#1}}
+\newcommand*{\Bst}[1]{%
+	\index{文献スタイル!#1@\textsf{#1}}%
+	\index{#1@\textsf{#1}}\textsf{#1}}%
+%    \end{macrocode}
+%
+% \DescribeMacro{\latexno}
+% 索引において\LaTeX が親になるエントリを追加するのに使います。
+%    \begin{macrocode}
+\newcommand*\latexno[1]{\index{LaTeX@\LaTeX!\zdash #1}}
+%    \end{macrocode}
+%
+% \DescribeMacro{\hito}
+% 人名を書くときは|\hito|命令を使い敬称を省略します．
+% 敬称は|\hito|命令側で統一します．
+% \DescribeMacro{\Hito}
+% 索引に追加する場合は|\H|命令です．読みがある場合は
+% 任意引数で指定します．しかし、色々と考えた結果、 |\ppl| を基本に使います。
+%    \begin{macrocode}
+\newcommand*{\hito}{\@ifnextchar[{\yomi@hito}{\@hito}}
+\newcommand*{\yomi@hito}[2][]{#2氏}
+\newcommand*{\@hito}[1]{#1氏}
+\newcommand*{\Hito}{\@ifnextchar[{\yomi@Hito}{\@Hito}}
+\newcommand*{\yomi@Hito}[2][]{%
+	\index{人名!#1@\protect{#2}}%
+	\index{#1@\protect{#2}}#2氏}
+\newcommand*{\@Hito}[1]{\index{人名!#1}\index{#1}#1氏}
+\newcommand*\ppl[1]{\index{人名!#1}#1氏}
+%    \end{macrocode}
+%
+% \DescribeMacro{\kount}
+% {\LaTeX}のカウンタ名を参照する場合は|\kount|を使います．
+% \DescribeMacro{\K}
+% 案の定索引に追加するには|\K|を使います．
+%    \begin{macrocode}
+\newcommand*{\kount}[1]{\texttt{#1}}
+\newcommand*{\K}[1]{%
+  \index{#1@\texttt{#1}\pp{カウンタ}}\index{カウンタ!#1@\texttt{#1}}%
+  \texttt{#1}}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\suf}
+% 拡張子を示す場合は|\suf|命令を使います．引数にピリオドは
+% 省略します。
+% \DescribeMacro{\Suf}
+% 索引にも追加する場合は|\Suf|を使います．
+%    \begin{macrocode}
+\newcommand*{\suf}[1]{\texttt{.#1}}
+\newcommand*{\Suf}[1]{%
+  \index{拡張子!#1@\texttt{\protect\hspace*{-1ex}.#1}}%
+  \index{#1@\texttt{\protect\hspace*{-1ex}.#1} (拡張子)}%
+  \texttt{.#1}}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\va}
+% 一般的な「変数」と呼ばれる要素に対しては|\va|命令を使います．
+% \DescribeMacro{\Va}
+% |\Va|命令は2つの引数を取ります。1つ目には任意の文字列、2つ目には
+% 拡張子を書きますから，これは任意のファイルを拡張子付きで
+% 示す場合に使います．
+% \DescribeMacro{\str}
+% ソースコードの入力やその他必要と思われる「文字列」に対しては
+% |\str|命令を使います．これは先頭の文字列が|\string|で
+% カテゴリーが無効になります．
+%    \begin{macrocode}
+\newcommand{\va}[1]{{\normalfont$\langle$\mbox{}\textit{#1}\mbox{}$\rangle$}}
+\newcommand{\Va}[2]{%
+   $\langle$\mbox{}\textit{#1}\mbox{}$\rangle$\suf{#2}}
+\newcommand{\str}[1]{{\normalfont\ttfamily\mdseries\string#1}}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\pa}
+% {\LaTeX}コマンドの必須引数を示すために|\pa|命令を使います．
+% \DescribeMacro{\opa}
+% 任意引数の場合は|\opa|命令を使います．
+% \DescribeMacro{\xy}
+% 座標系の場合は|\xy|を使い，$x$と$y$の2つの引数を渡します．
+%    \begin{macrocode}
+\newcommand{\pa}[1]{{\ttfamily\string{}\va{#1}{\ttfamily\string}}}%
+\newcommand{\opa}[1]{{\ttfamily[}\va{#1}{\ttfamily]}}%
+\newcommand{\xy}[2]{\string({\itshape#1}\texttt, {\itshape#2}\string)}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\option}
+% パッケージオプションやクラスオプションには|\option|命令を使う．
+% これはスラント体に変更される．
+% \DescribeMacro{\Option}
+% オプションを索引に追加する場合には|\Option|命令を使う．
+% \DescribeMacro{\copt}
+% 特別にプログラムのコマンドラインオプションの場合は|\copt|
+% 命令を使うようにすれば良い．これは索引に追加する必要はない．
+%    \begin{macrocode}
+\newcommand{\option}[1]{\textsl{#1}}
+\newcommand{\Option}[1]{%
+	\index{#1@\textsl{#1}}%
+	\index{オプション!#1@\textsl{#1}}%
+	\textsl{#1}}
+\newcommand{\copt}[1]{\texttt{#1}}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\qu}
+% \DescribeMacro{\qq}
+% 欧文の引用には|\qu|と|\qq|を使います．単語の引用は|\qu|で，
+% 文の引用には|\qq|を使うようにします．
+% \DescribeMacro{\yo}
+% \DescribeMacro{\yy}
+% 和文の引用には|\yo|と|\yy|を使います．これも同じように
+% 単語には|\yo|で，文には|\yy|です．
+% \DescribeMacro{\pp}
+% 丸括弧で括る場合は|\pp|命令を使います．全角丸括弧が使われます．
+% \DescribeMacro{\wasyo}
+% \DescribeMacro{\yousyo}
+% 雑誌名や書籍名を参照するときは|\wasyo|と|\yousyo|命令を
+% 使います．和書の場合は|\wasyo|，洋書の場合は|\yousyo|です．
+% わかりやすいでしょう？
+%    \begin{macrocode}
+\newcommand*{\qu}[1]{`#1'}
+\newcommand*{\qq}[1]{``#1''}
+\newcommand*{\yo}[1]{「#1」}
+\newcommand*{\yy}[1]{『#1』}
+\newcommand*{\pp}[1]{（#1）}
+\newcommand*{\wasyo}[1]{『#1』}
+\newcommand*{\yousyo}[1]{\emph{#1}}
+\newcommand*\Em[1]{{\gtfamily\bfseries#1}}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\optionlist}
+% クラスオプションやパッケージオプションを複数個同時に
+% 並べるときは|\optionlist|命令を使います．
+% \DescribeMacro{\Optionlist}
+% それらを索引に追加する場合は|\Optionlist|になります．
+%    \begin{macrocode}
+\def\optionlist#1{%
+   \@tempcnta=\z@ \@tempcntb=\z@
+   \@for\member:=#1\do{\advance\@tempcnta\@ne}%
+   \@for\member:=#1\do{\advance\@tempcntb\@ne
+      \ifnum\@tempcntb<\@tempcnta
+            \textsl{\member}，%
+      \else
+         \ifnum\@tempcntb=\@tempcnta
+             \textsl{\member}%
+        \fi
+      \fi
+   }%
+}
+\def\Optionlist#1{%
+   \@tempcnta=\z@ \@tempcntb=\z@
+   \@for\member:=#1\do{\advance\@tempcnta\@ne}%
+   \@for\member:=#1\do{\advance\@tempcntb\@ne
+      \ifnum\@tempcntb<\@tempcnta
+         \index{\member @\textsl{\member}}%
+         \index{オプション!\member @\textsl{\member}}%
+         \textsl{\member}，%
+      \else
+          \ifnum\@tempcntb=\@tempcnta
+             \index{\member @\textsl{\member}}%
+             \index{オプション!\member @\textsl{\member}}%
+             \textsl{\member}%
+          \fi%
+      \fi
+   }%
+}
+%
+%
+% \DescribeMacro{\definecolor}
+% 基本となるグレーの濃さ．
+%    \begin{macrocode}
+%\definecolor{mygray}{cmyk}{0,0,0,.8}
+\def\my@default@gray{.2}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\toolbar}
+% Windowsのツールバーやメニューバーを参照するときに
+% |\toolbar|を使います．途中で改行が起こりませんので|Overfull|
+% になるので注意が必要です．
+%    \begin{macrocode}
+\newcommand*{\toolbar}[1]{{%
+   \fboxsep=0pt\fboxrule=0pt\colorbox[cmyk]{0,0,0,\my@default@gray}{[#1]}}} 
+%    \end{macrocode}
+%
+%
+% \begin{environment}{myquote}
+% jsclasses等では右側が字下げされませんが，
+% 右側も字下げする引用環境です．
+%    \begin{macrocode}
+\newenvironment{myquote}%
+  {\list{}{\rightmargin\leftmargin}\item\relax}{\endlist}
+%    \end{macrocode}
+% \end{environment}
+% \begin{environment}{myquotation}
+% こちらは段落の行頭が字下げされます．
+%    \begin{macrocode}
+\newenvironment{myquotation}{%
+  \list{}{%
+    \listparindent\parindent
+    \itemindent\listparindent
+    \rightmargin\leftmargin}%
+  \item\relax}{\endlist}
+%    \end{macrocode}
+% \end{environment}
+%
+%
+% \DescribeMacro{\m}
+% 以下|\m|，|\M|，|\T|，|\KM|，|\A|，|\B|，|\W|は
+% すべて表中で使います．これは左側の要素に記号を出力し
+% 右側の要素にソースを出力します．要するに記号の
+% 入出力の対を示すために何度も使われています．
+% 上記の命令ではバックスラッシュは省略します．
+% 結果的に記号が出力されていない場合もあるので
+% タイプミスに注意してください．
+% \DescribeMacro{\M}
+% |\m|の場合は索引に追加しない数学記号であり，
+% |\M|命令は数学記号として命令索引に追加します．
+% \DescribeMacro{\T}
+% 文字記号は|\T|として命令索引に追加します．
+% \DescribeMacro{\KM}
+% 「記号　命令」は何度も使われるかもしれないので|\KM|
+% としてあります．
+%    \begin{macrocode}
+\newcommand*{\m}[1]{$#1$&\texttt{\string#1}}
+\newcommand*{\M}[1]{%
+   \glossary{#1@\hspace*{-1.2ex}\texttt{\protect\bs#1}%
+	\hskip1em($\protect\csname #1\endcsname$)}%
+   $\csname #1\endcsname$&\texttt{\bs#1}}
+\newcommand*{\BM}[1]{%
+   \glossary{#1@\hspace*{-1.2ex}\texttt{\protect\bs#1}%
+	\hskip1em($\protect\csname #1\endcsname$)}%
+   \texttt{\bs#1}}
+\newcommand*{\T}[1]{%
+   \glossary{#1@\hspace*{-1.2ex}\texttt{\protect\bs\string#1}%
+	\hskip1em(\csname#1\endcsname)}%
+   \csname#1\endcsname&\texttt{\bs\string#1}}
+\newcommand*{\KM}{記号&命令}
+%    \end{macrocode}
+%
+% \DescribeMacro{\A}
+% 文章中の特殊記号には|\A|を使います．
+% \DescribeMacro{\B}
+% 文長中のアクセントには|\B|命令を使い，1つ目の引数に
+% 命令を，2つ目の引数にアクセントつけられる文字を書きます．
+% \DescribeMacro{\W}
+% 数式中のアクセントには|\W|命令で，1つ目の引数に
+% 命令を，2つ目の引数にアクセントをつけられる記号を書きます．
+%    \begin{macrocode}
+\newcommand*{\A}[1]{%
+   \glossary{#1@\hspace*{-1.2ex}\texttt{\protect\bs#1}%
+      \hskip1em(\csname#1\endcsname)}%
+   \csname#1\endcsname&\texttt{\bs#1}}
+\newcommand*{\B}[2]{%
+   \glossary{#1@\hspace*{-1.2ex}\texttt{\protect\bs#1}%
+      \hskip1em(\csname#1\endcsname{#2}\relax)}%
+   \csname#1\endcsname{#2}&%
+    \texttt{\protect\bs\string#1\string{#2\string}}}
+% \W{#1}{#2} 数式中のアクセント
+\newcommand*{\W}[2]{%
+  \glossary{#1@\hspace*{-1.2ex}\texttt{\bs#1}%
+    \hskip1em($\csname#1\endcsname{#2}$)}%
+  $\csname#1\endcsname{#2}$ & %
+  \texttt{\bs#1\string{#2\string}}}%
+%    \end{macrocode}
+%
+% \DescribeMacro{\demowidth}
+% 文章中で線の長さを示すには|\demowidth|を使います．これは
+% lshortからの改変です．長さが負の場合の処理を追加した方が
+% 良いかもしれません．
+%    \begin{macrocode}
+\newcommand*{\demowidth}[1]{%
+   \rule{0.3pt}{1.3ex}\rule{#1}{0.3pt}\rule{0.3pt}{1.3ex}}
+%    \end{macrocode}
+%
+%
+% どこかで|hoge|カウンタが使われています．というか様々な
+% ところでこの|hoge|カウンタが乱用されています．
+%    \begin{macrocode}
+\newcounter{hoge}
+\newcommand*{\bool}{ブール値}%?
+%    \end{macrocode}
+%
+% \begin{environment}{Prob}
+% 「問題」型の環境です．\textsf{theorem}パッケージを使って
+% 定義しています．
+%    \begin{macrocode}
+\theoremheaderfont    {\reset@font \headfont}
+\theorembodyfont      {\reset@font \rmfamily}
+\theoremstyle         {plain}
+\newtheorem{Prob}     {\mantriangleright 問題}[chapter]
+\newtheorem{Exe}[Prob]{$\triangleright$ 例題}
+\newenvironment{Trick}%
+  {\begin{list}{\mbox{\normalsize\dbend}}{%
+  \leftmargin = 3zw
+  \labelwidth = 2zw
+  \rightmargin = 0zw
+  \small}\item \relax}{\end{list}}
+%    \end{macrocode}
+% \end{environment}
+%
+%
+% \subsection{リスト表示・ベタ書きなどなど}
+%
+% \begin{environment}{InText}
+% ユーザが入力すべきテキストを示すには|InText|環境を
+% 使います．これは|verbatim|環境に|\small|と左側の字下げをした
+% だけで，至ってシンプルです．
+%    \begin{macrocode}
+\newenvironment{InText}{%
+  \list{}{\leftmargin=2zw \rightmargin=0zw}
+   \item\small\verbatim}{\endverbatim \endlist}%
+%    \end{macrocode}
+% \end{environment}
+%
+% \begin{environment}{OutText}
+% ソースコードをタイプセットしたあとの表示を示すには
+% |OutText|環境を使います．これは入力の|InText|と対になります．
+%    \begin{macrocode}
+\newenvironment{OutText}{\unitlength=1pt
+	\begin{screen}}{\end{screen}}
+%    \end{macrocode}
+% \end{environment}
+%
+% \DescribeMacro{\type}
+% \DescribeMacro{\key}
+% one-line のコンソールからの入力には |\type| 命令を使います。
+% キートップを出力するには |\key{key1, key2,..., keyn}| を使います。
+% \begin{environment}{InTerm}
+% コンソールからの文字列の入力には|InTerm|環境を
+% 使います．複数行の入力には|\item|命令を先頭におきます．
+%    \begin{macrocode}
+%   {\list{\rule[-.2em]{1ex}{1em}}{\ttfamily
+%      \itemsep=-.5ex \parsep=-.5ex}\item\relax}%
+%   {\endlist}
+\newif\if@TYPE
+\newcommand*\type{\@ifnextchar[{\@@type}{\@type}}
+\def\@hoge{\begingroup \urlstyle{tt}\Url}
+\def\@@type[#1]{\if@TYPE\item[{\ttfamily#1}]\fi
+   \begingroup \urlstyle{tt}\Url}
+\def\@type#1{\if@TYPE \item\@hoge{#1}%
+      \else\underline{\@hoge{#1}}\fi}
+%
+\newcommand*\key{\thinspace\@key}%
+\def\@key#1{\@tempcnta=\z@%
+ \@for\member:=#1\do{%
+   \ifnum\@tempcnta<1%
+      \keytop{\member}%
+   \else%
+      \texttt{+}\keytop{\member}%
+   \fi%
+   \advance\@tempcnta\@ne}%
+ \thinspace}%
+%
+\newenvironment{InTerm}{\@TYPEtrue
+   \list{\mbox{\texttt\$}}{%
+      \rightmargin=0pt
+      \itemsep=-.5ex 
+      \parsep=-.5ex}}%
+   {\endlist \@TYPEfalse}
+%
+%    \end{macrocode}
+% \end{environment}
+%
+% \begin{environment}{OutTerm}
+% コンソールに出力される文字列を示す場合は|OutTerm|環境を
+% 使います。draftオプションが有効のときは|verbatim|に入れます．
+% そうでない時はlistingsパッケージを使います．
+%    \begin{macrocode}
+\ifdraft
+\newenvironment{OutTerm}{%
+   \list{}{\leftmargin=1.5zw \rightmargin=1.5zw}
+   \item\small\verbatim}{\endverbatim \endlist}%
+\else
+\lstnewenvironment{OutTerm}{%
+  \lstset{%
+    columns=[l]{fullflexible},
+    basicstyle={\small\ttfamily},%
+    identifierstyle={\small},%
+    commentstyle={\small},%
+    keywordstyle={\small\bfseries},%
+    ndkeywordstyle={\small},%
+    numbers=none,%
+    formfeed=\linebreak,%
+    frameshape={yny}{}{}{yny},
+    xrightmargin=1.5zw,%
+    xleftmargin=1.5zw,%
+    }}{}%
+\fi%
+%    \end{macrocode}
+% \end{environment}
+%
+%
+% \begin{environment}{Syntax}
+% {\LaTeX}などにおける重要な構文は|Syntax|環境中に入れます．
+% 改行などは行われず，ただ単に要素を文章幅いっぱいの枠付きの
+% 箱に挿入するだけですから，ページ区切りには気をつけてください．
+%    \begin{macrocode}
+\newenvironment{Syntax}%
+  {\bgroup \parindent=0pt%
+    \par\addvspace{1ex plus 0.8ex minus 0.5ex}%
+    \vskip-\parskip\begin{Sbox}%
+    \begin{minipage}{\ftextwidth}}%
+  {\end{minipage}\end{Sbox}\fbox{\TheSbox}%\IOlabel%
+    \par\addvspace{1ex plus 0.8ex minus 0.5ex}%
+    \vskip-\parskip\egroup\par\noindent\ignorespacesafterend}%
+%    \end{macrocode}
+% \end{environment}
+%
+%
+% \subsection{相互参照}
+%
+% \DescribeMacro{\pref}
+% ページを参照する場合は|\pageref|ではなく|\pref|を使います．
+% この場合|\pref|側で「○ページ」の「ページ」に該当する
+% 文字を統一します．
+% \DescribeMacro{\chapref}
+% 章を参照するときは|\ref|ではなく|\chapref|命令を使います．
+% \DescribeMacro{\secref}
+% 同じように節も|\secref|を使います．%
+% \DescribeMacro{\fullref}
+% ページ番号と節番号の両方を「○ページ○節」として
+% 参照するには|\fullref|を使います．
+% \DescribeMacro{\figref}
+% 図は|\figref|です．
+% \DescribeMacro{\tabref}
+% 表は|\tabref|です．
+% \DescribeMacro{\eqref}
+% 式を参照するための|\eqref|はすでにamsmathか何かで定義されているので
+% |\def|を使っています．
+%    \begin{macrocode}
+\newcommand*{\pref}[1]{\pageref{#1}~ページ}
+\newcommand*{\chapref}[1]{\ref{#1}~章}
+\newcommand*{\secref}[1]{\ref{#1}~節}
+\newcommand*{\fullref}[1]{\pref{#1}\secref{#1}~参照}
+\newcommand*{\figref}[1]{\figurename~\ref{#1}}
+\newcommand*{\tabref}[1]{\tablename~\ref{#1}}
+\def\eqref#1{式~(\ref{#1})}
+%    \end{macrocode}
+%
+%
+% \subsection{ロゴ}
+%
+% \DescribeMacro{\Xy}
+% 各種ロゴを定義します．
+% \DescribeMacro{\PIC}
+% \DescribeMacro{\Tpic}
+% \DescribeMacro{\JLaTeXe}
+% \DescribeMacro{\XyMTeX}
+% \DescribeMacro{\eTeX}
+% \DescribeMacro{\eLaTeX}
+% \DescribeMacro{\AmsLaTeX}
+% \DescribeMacro{\dvipdfmx}
+% dvipdfm$x$のロゴは正式なものではないかもしれません．
+%    \begin{macrocode}
+\DeclareRobustCommand*{\Xy}{%
+   \leavevmode\hbox{\kern-.1em X\kern-.3em\lower.4ex\hbox{Y\kern-.15em}}%
+   \xspace
+}
+\DeclareRobustCommand*{\PIC}{PIC\xspace}
+\DeclareRobustCommand*{\Tpic}{{\normalfont\textsc{Tpic}}\xspace}
+\DeclareRobustCommand*{\JLaTeXe}{%
+   \leavevmode%
+   \lower.5ex\hbox{\rm J}\kern-.1em\LaTeXe\xspace
+}
+\DeclareRobustCommand*{\XyMTeX}{%
+   X\kern-.3em\smash{\raise.5ex\hbox{$\m@th\Upsilon$}}%
+   \kern-.3em{M}\kern-0.1em\TeX\xspace
+}
+\DeclareRobustCommand*{\eTeX}{$\m@th\varepsilon$-\TeX\xspace}
+\DeclareRobustCommand*{\eLaTeX}{$\m@th\varepsilon$-\LaTeX\xspace}
+\DeclareRobustCommand*\NTS{%
+   \leavevmode\hbox{$\cal N\kern-0.35em\lower0.5ex\hbox{$\cal T$}%
+   \kern-0.2emS$}\xspace
+}
+\DeclareRobustCommand*{\AmSLaTeX}{\AmS-\LaTeX\xspace}
+\DeclareRobustCommand*{\dvipdfmx}{%
+   Dvipdfm{\rmfamily\itshape x}\xspace
+}
+\DeclareRobustCommand*\XeTeX{\leavevmode
+  \setbox0=\hbox{X\lower.5ex\hbox{\kern-.15em\reflectbox{E}}%
+  \kern-.1667em \TeX}\dp0=0pt\ht0=0pt\box0}
+\DeclareRobustCommand*\XeLaTeX{\leavevmode
+  \setbox0=\hbox{X\lower.5ex\hbox{\kern-.15em\reflectbox{E}}%
+  \kern-.0833em \LaTeX}\dp0=0pt\ht0=0pt\box0}
+%    \end{macrocode}
+%
+% \subsection{語句}
+%
+% \DescribeMacro{\LMANUAL}
+% \DescribeMacro{\COMP}
+% \DescribeMacro{\GCOMP}
+% \DescribeMacro{\WCOMP}
+% \DescribeMacro{\TEXBOOK}
+% \DescribeMacro{\METAFONTBOOK}
+%
+% 用語の統一のためにいくつかの書籍名や用語を登録しています．
+% |\LMANUAL|，|\COMP|，|\GCOMP|，|\WCOMP|の4冊は金字塔の作品．
+% |\TEXBOOK|と|\METAFONTBOOK|はKnuth氏のバイブル．
+%    \begin{macrocode}
+\newcommand*{\LMANUAL}{文書処理システム{\LaTeXe}}
+\newcommand*{\COMP}{{\LaTeX}コンパニオン}
+\newcommand*{\GCOMP}{{\LaTeX}グラフィックスコンパニオン}
+\newcommand*{\WCOMP}{{\LaTeX} Webコンパニオン}
+\newcommand*{\TEXBOOK}{\TeX book\xspace}% 原著
+\newcommand*{\METAFONTBOOK}{\MF ブック} % 訳著
+\newcommand*{\ANOTHERMANUAL}{Another Manual\xspace}
+\newcommand*{\PS}{PostScript\xspace}
+\newcommand*{\IM}{ImageMagick\xspace}
+\newcommand*{\GS}{Ghostscript\xspace}
+\newcommand*{\BB}{BoundingBox\xspace}
+\newcommand*{\laTEX}{\TeX/\LaTeX\xspace}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\dos}
+% 端末に表示される警告などを示すために|\dos|命令を使います．
+% これは背景が黒，文字色が白になりますので，まるでプロンプトの
+% ようなスタイルになります．
+% \DescribeMacro{\dosh}
+% |\dosh|を使うと文章幅いっぱいのスタイルになります。自分で
+% 適宜改行をします．
+%    \begin{macrocode}
+\newcommand{\dos}[1]{%
+   \colorbox{black}{\color{white}{%
+   \small\normalfont\ttfamily #1\hfil}}}
+\newcommand{\dosh}[1]{%
+   \noindent\colorbox{black}{%
+   \hbox to \ftextwidth{\color{white}{%
+   \small\normalfont\ttfamily #1\hfil}}}}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\IOmargin}
+% \DescribeMacro{\IOlabel}
+% 文章幅からはみ出る要素は一応版面いっぱいまでなら許容される．
+% このとき，奇数ページか偶数ページかでマージンを変更する．
+% これには|\IOmargin|と|\IOlabel|を合わせて使うようにすると
+% 可能です．文章幅を飛び出る要素の直前に|\IOmargin|命令を書き
+% 要素の直後に|\IOlabel|を書きます．あらかじめ要素は|\makebox|
+% 命令などで幅を0ptに見せかける処理が必要になります．\par
+% 入出力の対を版面いっぱいに表示するために|InOut|環境を定義します．
+% これもlshortの定義を少し変更しただけです．\textsf{fancybox}の
+% マクロを使えばもう少し簡単になる？
+%    \begin{macrocode}
+\newlength{\IOm}
+\setlength{\IOm}{\textwidth}
+\addtolength{\IOm}{-\fullwidth}
+%
+\newwrite\example@out
+%
+\newcounter{IOcnt}
+\setcounter{IOcnt}{1}
+%
+\newcommand{\IOmargin}{%
+  \stepcounter{IOcnt}%
+  \expandafter\ifx\csname r@exa:\theIOcnt\endcsname\relax
+  \else
+    \ifHyper
+      \ifodd\HyPsd@pageref{exa:\theIOcnt}%
+         \hspace*{0pt}%
+      \else
+         \hspace*{\IOm}%
+      \fi
+    \else
+      \ifodd\pageref{exa:\theIOcnt}%
+         \hspace*{0pt}%
+      \else
+         \hspace*{\IOm}%
+      \fi
+    \fi
+  \fi
+}
+\newcommand{\IOlabel}{\label{exa:\theIOcnt}}
+\newenvironment{InOut}%
+   {\begingroup%
+      \@bsphack%
+       \immediate\openout \example@out \jobname.exa%
+       \let\do\@makeother\dospecials\catcode`\^^M\active%
+       \def\verbatim@processline{%
+          \immediate\write\example@out{\the\verbatim@line}}%
+          \verbatim@start}%
+   {\immediate\closeout\example@out\@esphack\endgroup%
+   \stepcounter{IOcnt}% 
+   \setlength{\parindent}{0pt}%
+   \par\addvspace{3.0ex plus 0.8ex minus 0.5ex}\vskip-\parskip%
+\expandafter\ifx\csname r@exa:\theIOcnt\endcsname \relax
+\else
+   \ifHyper
+      \ifodd\HyPsd@pageref{exa:\theIOcnt}%
+         \hspace*{0pt}%
+      \else
+         \hspace*{\IOm}%
+      \fi
+   \else
+      \ifodd\pageref{exa:\theIOcnt}%
+         \hspace*{0pt}%
+      \else
+         \hspace*{\IOm}%
+      \fi
+   \fi
+\fi
+   \makebox[0pt][l]{%
+   {\begin{minipage}[c]{.47\fullwidth}%
+      \small\verbatiminput{\jobname.exa}%
+   \end{minipage}}%
+   \hspace{0.05\fullwidth}%
+   {\begin{minipage}{.47\fullwidth}%
+      \begin{trivlist}\item\small\input{\jobname.exa}%
+      \end{trivlist}%
+   \end{minipage}}%
+   }\label{exa:\theIOcnt}%
+   \par\addvspace{3.0ex plus 0.8ex minus 0.5ex}\vskip-\parskip}%
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\image}
+% その他色々
+%    \begin{macrocode}
+\newcommand{\image}[4][]{%
+\begin{figure}[htbp]
+ \begin{center}
+   \includegraphics[#1]{images/#2}
+   \caption{#3}\label{fig:#4}
+ \end{center}
+\end{figure}}
+%\newenvironment{ftable}[1][htbp]%
+%  {\begin{table}[#1]
+%   \begin{Sbox}\begin{minipage}{%
+%  (\linewidth-2\fboxrule-2\fboxsep)}}%
+%  {\end{minipage}\end{Sbox}\fbox{\TheSbox}\end{table}} 
+%
+\newcommand*{\kutiref}[1]{口絵~\ref{kuti:#1}}
+\newcommand*{\kuti}[1]{\refstepcounter{enumi}口絵\theenumi~#1}
+\newenvironment{column}{\begin{small}\paragraph*{コラム}}{\end{small}}
+\DeclareRobustCommand*{\pdfTeX}{pdf\TeX\xspace}
+\DeclareRobustCommand*{\pdfeTeX}{pdf\eTeX\xspace}
+\DeclareRobustCommand*{\pdfLaTeX}{pdf\LaTeX\xspace}
+\DeclareRobustCommand*{\pdfeLaTeX}{pdf\eLaTeX\xspace}
+\DeclareRobustCommand*{\Context}{Con{\TeX}t\xspace}
+\DeclareRobustCommand*{\texinfo}{texinfo\xspace}
+\DeclareRobustCommand*{\txfonts}{\texttt{TX}\textsf{Fonts}\xspace}
+\DeclareRobustCommand*{\pxfonts}{\texttt{PX}\textsf{Fonts}\xspace}
+\newcommand*{\myKuten}{。}
+\newcommand*{\myTouten}{、}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\DeclareFontShape}
+% 不足するシリーズを宣言します。
+%    \begin{macrocode}
+\DeclareFontShape{JY1}{gt}{m} {sc}{<->ssub*gt/m/n}{}
+\DeclareFontShape{JT1}{gt}{m} {sc}{<->ssub*gt/m/n}{}
+\DeclareFontShape{JY1}{gt}{bx}{it}{<->ssub*gt/m/n}{}
+\DeclareFontShape{JT1}{gt}{bx}{it}{<->ssub*gt/m/n}{}
+\DeclareFontShape{JT1}{gt}{bx}{sl}{<->ssub*gt/m/n}{}
+\DeclareFontShape{JY1}{gt}{bx}{sl}{<->ssub*gt/m/n}{}
+\DeclareFontShape{JY1}{mc}{m} {ui}{<->ssub*mc/m/n}{}
+\DeclareFontShape{JT1}{mc}{m} {ui}{<->ssub*mc/m/n}{}
+%    \end{macrocode}
+%
+
+% \subsection{目次など}
+%
+% \DescribeMacro{\tableofcontents}
+% \DescribeMacro{\l@chapter}
+% \DescribeMacro{\l@figure}
+% \DescribeMacro{\listoffigures}
+% \DescribeMacro{\listoftables}
+% \DescribeMacro{\l@lstlisting}
+% |tocdepth| は 2 にします。
+% jsbook のバージョンによっては |\l@figure| が 欧文用のままです。
+%    \begin{macrocode}
+\setcounter{tocdepth}{2}
+%
+\renewcommand{\tableofcontents}{%
+  \if@twocolumn
+    \@restonecoltrue\onecolumn
+  \else
+    \@restonecolfalse
+  \fi
+  \chapter*{\contentsname%
+ 	\@mkboth{\contentsname}{\contentsname}%
+  	\@ifundefined{texorpdfstring}{}{%
+           \pdfbookmark{\contentsname}{contents}}%
+  	}%
+  \@starttoc{toc}%
+  \if@restonecol\twocolumn\fi
+}
+%
+\renewcommand{\l@chapter}[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \addvspace{1.0em \@plus\p@}
+    \begingroup
+      \parindent\z@
+      \rightskip\@tocrmarg
+      \parfillskip-\rightskip
+      \leavevmode\large\headfont
+      \setlength\@lnumwidth{4.683zw}%
+      \advance\leftskip\@lnumwidth \hskip-\leftskip
+      \hb@xt@\z@{\color[cmyk]{0,0,0,\my@default@gray}\vrule height 1em width 4pt depth1em\hss}%
+      \hskip 8pt #1\nobreak\hfill\nobreak\hb@xt@\@pnumwidth{\hss#2}\par
+        {\color[cmyk]{0,0,0,\my@default@gray}\hrule depth 4pt}\par\nobreak\vskip8pt
+      \penalty\@highpenalty
+    \endgroup
+  \fi}
+%
+\renewcommand*{\l@figure}{\@dottedtocline{1}{1zw}{3.683zw}}
+%
+\renewcommand{\listoffigures}{%
+  \if@twocolumn\@restonecoltrue\onecolumn
+  \else\@restonecolfalse\fi
+  \chapter*{\listfigurename
+  \@mkboth{\listfigurename}{\listfigurename}}%
+  \@starttoc{lof}%
+  \if@restonecol\twocolumn\fi
+}
+%
+\renewcommand{\listoftables}{%
+  \if@twocolumn\@restonecoltrue\onecolumn
+  \else\@restonecolfalse\fi
+  \chapter*{\listtablename
+  \@mkboth{\listtablename}{\listtablename}}%
+  \@starttoc{lot}%
+  \if@restonecol\twocolumn\fi
+}
+%
+\let\l@lstlisting\l@figure
+%    \end{macrocode}
+% 
+% \DescribeMacro{\setcounter}
+% 目次のレベルと番号づけの深さを設定します。
+%    \begin{macrocode}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{1}
+%    \end{macrocode}
+%
+%
+% \subsection{索引・参考文献}
+%
+% \DescribeMacro{\makeindex}
+% \DescribeMacro{\makeglossary}
+% \DescribeMacro{\indexname}
+% \DescribeMacro{\glossaryname}
+% 索引と命令索引を作るために|\makeindex|と|\makeglossary|
+% しています。それに因んで|\indexname|と|\glossaryname|を
+% それぞれ「索 引」と「命 令 索 引」に決めています．
+%    \begin{macrocode}
+\makeindex
+\makeglossary
+\def\indexname{索 引}
+\def\glossaryname{命 令 索 引}
+%    \end{macrocode}
+%
+% \begin{environment}{theglossary}
+% \begin{environment}{theindex}
+% \begin{environment}{thebibliography}
+% 
+% 命令索引を出力するには既存の |glossary| 系統のものを使います。
+%    \begin{macrocode}
+\renewenvironment{theindex}{% 索引を3段組で出力する環境
+    \if@twocolumn
+      \onecolumn\@restonecolfalse
+    \else
+      \clearpage\@restonecoltrue
+    \fi
+    \columnseprule.4pt \columnsep 2zw
+    \ifx\multicols\@undefined
+      \twocolumn[\@makeschapterhead{\indexname}%
+        \addcontentsline{toc}{chapter}{\indexname}]%
+    \else
+      \ifdim\textwidth<\fullwidth
+        \setlength{\evensidemargin}{\oddsidemargin}
+        \setlength{\textwidth}{\fullwidth}
+        \setlength{\linewidth}{\fullwidth}
+        \begin{multicols}{3}[\chapter*{\indexname}%
+        \addcontentsline{toc}{chapter}{\indexname}]%
+      \else
+        \begin{multicols}{2}[\chapter*{\indexname}%
+        \addcontentsline{toc}{chapter}{\indexname}]%
+      \fi
+    \fi
+    \@mkboth{\indexname}{\indexname}%
+    \plainifnotempty % \thispagestyle{plain}
+    \parindent\z@
+    \parskip\z@ \@plus .3\p@\relax
+    \let\item\@idxitem
+    \raggedright
+    \small\narrowbaselines\normalfont
+  }{
+    \ifx\multicols\@undefined
+      \if@restonecol\onecolumn\fi
+    \else
+      \end{multicols}
+    \fi
+    \clearpage
+  }
+%
+\newenvironment{theglossary}{% 命令索引を3段組で出力する環境
+    \if@twocolumn
+      \onecolumn\@restonecolfalse
+    \else
+      \clearpage\@restonecoltrue
+    \fi
+    \columnseprule.4pt \columnsep 2zw
+    \ifx\multicols\@undefined
+      \twocolumn[\@makeschapterhead{\glossaryname}%
+      \addcontentsline{toc}{chapter}{\glossaryname}%
+      ]%
+    \else
+      \ifdim\textwidth<\fullwidth
+        \setlength{\evensidemargin}{\oddsidemargin}
+        \setlength{\textwidth}{\fullwidth}
+        \setlength{\linewidth}{\fullwidth}
+        \begin{multicols}{3}[\chapter*{\glossaryname}%
+        \addcontentsline{toc}{chapter}{\glossaryname}%
+        ]%
+      \else
+        \begin{multicols}{2}[\chapter*{\glossaryname}%
+        \addcontentsline{toc}{chapter}{\glossaryname}%
+        ]%
+      \fi
+    \fi
+    \@mkboth{\glossaryname}{\glossaryname}%
+    \plainifnotempty % \thispagestyle{plain}
+    \parindent\z@
+    \parskip\z@ \@plus .3\p@\relax
+    \let\item\@idxitem
+    \raggedright
+    \footnotesize\narrowbaselines
+  }{
+    \ifx\multicols\@undefined
+      \if@restonecol\onecolumn\fi
+    \else
+      \end{multicols}
+    \fi
+    \clearpage
+  }%
+\renewenvironment{thebibliography}[1]{%
+  \global\let\presectionname\relax
+  \global\let\postsectionname\relax
+  \chapter*{\bibname\@mkboth{\bibname}{\bibname}}%
+      \addcontentsline{toc}{chapter}{\bibname}%
+   \list{\@biblabel{\@arabic\c@enumiv}}%
+        {\settowidth\labelwidth{\@biblabel{#1}}%
+         \leftmargin\labelwidth
+         \advance\leftmargin\labelsep
+         \@openbib@code
+         \usecounter{enumiv}%
+         \let\p@enumiv\@empty
+         \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+   \sloppy
+   \clubpenalty4000
+   \@clubpenalty\clubpenalty
+   \widowpenalty4000%
+   \sfcode`\.\@m}
+  {\def\@noitemerr
+    {\@latex@warning{Empty `thebibliography' environment}}%
+   \endlist
+}
+%    \end{macrocode}
+% \end{environment}
+% \end{environment}
+% \end{environment}
+%
+%
+% \DescribeMacro{\iiiemdash}
+% \DescribeMacro{\bibitem}
+% \DescribeMacro{\temp@str}
+% 参考文献一覧では著者名が重複した場合 3\,em dash にします。
+% 
+%    \begin{macrocode}
+\DeclareRobustCommand*\iiiemdash{%
+  ---\kern-.5em---\kern-.5em---\kern-.5em---\kern-.5em---}
+%
+\let\orig@bibitem\bibitem
+\let\temp@str\@empty
+\global\def\bibitem#1#2\newblock{%
+   \orig@bibitem{#1}% 
+   \def\temp@str{#2} 
+   \ifx\temp@str\previous@str 
+      \iiiemdash.\space\newblock 
+   \else 
+      #2\newblock 
+   \fi 
+   \def\previous@str{#2}% 
+}
+%    \end{macrocode}
+
+% \subsection{見出し}
+%
+% \DescribeMacro{\@chapter}
+% \DescribeMacro{\@makechapterhead}
+% \DescribeMacro{\@makeschapterhead}
+%
+% 見出し関連は好みで変更しています。
+%    \begin{macrocode}
+\def\@chapter[#1]#2{%
+  \ifnum \c@secnumdepth >\m@ne
+    \if@mainmatter
+      \refstepcounter{chapter}%
+%      \typeout{\@chapapp\thechapter\@chappos}%
+      \addcontentsline{toc}{chapter}%
+        {\protect\numberline{\@chapapp\thechapter\@chappos}#1}%
+    \else\addcontentsline{toc}{chapter}{#1}\fi
+  \else
+    \addcontentsline{toc}{chapter}{#1}%
+  \fi
+  \chaptermark{#1}%
+  \addtocontents{lof}{\protect\addvspace{10\p@}}%
+  \addtocontents{lot}{\protect\addvspace{10\p@}}% 
+  \addtocontents{lol}{\protect\addvspace{10\p@}}% listings 用
+  \if@twocolumn
+    \@topnewpage[\@makechapterhead{#2}]%
+  \else
+    \@makechapterhead{#2}%
+    \@afterheading
+  \fi}
+% chapter#1 style
+\def\@makechapterhead#1{%
+  \vspace*{2\Cvs}% 
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+	\hb@xt@\fullwidth{\hfill%
+          \huge\headfont\@chapapp{\Huge\bfseries\thechapter}\@chappos}%
+        \par\nobreak
+	\vskip\Cvs %
+      \fi
+    \fi
+    \interlinepenalty\@M
+    \hb@xt@\fullwidth{\hfill\Huge\headfont#1}
+    \par\nobreak\vskip\fboxsep
+    \hrule height 1ex
+    \par\vskip2\Cvs}}%
+% \chapter*#1 style 星付き章見出しの変更
+\def\@makeschapterhead#1{%
+  \vspace*{2\Cvs}% 欧文は50pt
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+    \hb@xt@\fullwidth{\hfill\Huge \headfont #1}\par\nobreak\vskip\fboxsep
+    \hrule height 1ex
+    \par\vskip2\Cvs}}% 欧文は40pt
+%    \end{macrocode}
+
+% \DescribeMacro{\@sect}
+% \DescribeMacro{\@xsect}
+% \DescribeMacro{\@ssect}
+% 節の見出しに関してもちょっと体裁を変更します。
+%    \begin{macrocode}
+% \section style
+\def\@sect#1#2#3#4#5#6[#7]#8{%
+  \ifnum #2>\c@secnumdepth
+    \let\@svsec\@empty
+  \else
+    \refstepcounter{#1}%
+    \protected@edef\@svsec{\@seccntformat{#1}\relax}%
+  \fi
+  \@tempskipa #5\relax
+  \ifdim \@tempskipa<\z@
+    \def\@svsechd{%
+      #6{\hskip #3\relax
+      \@svsec #8}%
+      \csname #1mark\endcsname{#7}%
+      \addcontentsline{toc}{#1}{%
+        \ifnum #2>\c@secnumdepth \else
+          \protect\numberline{\csname the#1\endcsname}%
+        \fi
+        #7}}% 目次にフルネームを載せるなら #8
+  \else
+    \begingroup
+      \interlinepenalty \@M % 下から移動
+%%%%%%
+    \ifnum #2=\@ne
+      \colorbox[cmyk]{0,0,0,\my@default@gray}{%
+        \hb@xt@\ftextwidth{#6{\@hangfrom{\@svsec}#8}%
+          \hfil}%
+	}\@@par%
+    \else
+        \ifnum #2=\tw@
+           {\large$\blacktriangledown$\hskip3pt}%
+           #6{\@hangfrom{\hskip #3\relax\@svsec}%
+              \relax#8\@@par}%
+        \else
+           #6{\@hangfrom{\hskip #3\relax\@svsec}#8\@@par}%
+        \fi
+    \fi
+    \endgroup
+%%%%%
+    \csname #1mark\endcsname{#7}%
+    \addcontentsline{toc}{#1}{%
+      \ifnum #2>\c@secnumdepth \else
+        \protect\numberline{\csname the#1\endcsname}%
+      \fi
+      #7}% 目次にフルネームを載せるならここは #8
+  \fi
+  \@xsect{#5}}
+\def\@xsect#1{%
+  \@tempskipa #1\relax
+  \ifdim \@tempskipa<\z@
+    \@nobreakfalse
+    \global\@noskipsectrue
+    \everypar{%
+      \if@noskipsec
+        \global\@noskipsecfalse
+       {\setbox\z@\lastbox}%
+        \clubpenalty\@M
+        \begingroup \@svsechd \endgroup
+        \unskip
+        \@tempskipa #1\relax
+        \hskip -\@tempskipa
+      \else
+        \clubpenalty \@clubpenalty
+        \everypar{\everyparhook}%
+      \fi\everyparhook}%
+  \else
+    \par \nobreak
+    \vskip \@tempskipa
+    \@afterheading
+  \fi
+  \par  % 2000-12-18
+  \ignorespaces}
+\def\@ssect#1#2#3#4#5{%
+  \@tempskipa #3\relax
+  \ifdim \@tempskipa<\z@
+    \def\@svsechd{#4{\hskip #1\relax #5}}%
+  \else
+    \begingroup
+      #4{%
+        \@hangfrom{\hskip #1}%
+          \interlinepenalty \@M #5\@@par}%
+    \endgroup
+  \fi
+  \@xsect{#3}}
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{\paragraph}
+% 段落レベルの |\paragraph| はちょっと再定義します。
+%    \begin{macrocode}
+\if@twocolumn
+  \renewcommand{\paragraph}{\@startsection{paragraph}{4}{\z@}%
+    {\z@}{-1zw}% 改行せず 1zw のアキ
+    {\normalfont\normalsize\headfont}}
+\else
+  \renewcommand{\paragraph}{\@startsection{paragraph}{4}{\z@}%
+    {0.5\Cvs \@plus.5\Cdp \@minus.2\Cdp}%
+    {-1zw}% 改行せず 1zw のアキ
+    {\normalfont\normalsize\headfont}}
+\fi
+%    \end{macrocode}
+%
+% \begin{environment}{abstract}
+% abstract 環境の変更をします。これは章の直後に使います。
+%    \begin{macrocode}
+\renewenvironment{abstract}{%
+  \thispagestyle{plainhead}%
+  \begin{list}{}{%
+    \linewidth=\fullwidth
+    \gtfamily\sffamily
+    \listparindent=1zw
+    \itemindent=\listparindent
+    \leftmargin=.3\textwidth
+    \rightmargin=0pt
+    }\item[]}{\end{list}}%
+%    \end{macrocode}
+% \end{environment}
+%
+%
+% \subsection{爪かけなど}
+% 
+% \DescribeMacro{\rtume}
+% 爪かけをだすための命令は |\rtume| となります。
+% \DescribeMacro{\ps@myhead}
+% \DescribeMacro{\ps@plainhead}
+% \DescribeMacro{\ps@plain}
+% 実際に |\rtume| が使われるのは |\ps@myhead| などになります。
+% |\ps@plainhead| は章見出しのあるページになります。
+% |\ps@plain| は \ldots 忘れました。
+%
+%    \begin{macrocode}
+\let\draft@mark\@empty
+\newif\iftume
+%
+\newcommand{\rtume}{
+\iftume
+ \setlength{\unitlength}{10mm}%
+ \begin{picture}(0,0)%
+   \put(0.5,-\value{chapter}){%
+      {\color{black}\rule[-.2\unitlength]{2\unitlength}{\unitlength}}}%
+   \put(0.8,-\value{chapter}){\makebox(0,.5)[l]{%
+      {\color{white}\large\sffamily\thechapter}}}%
+ \end{picture}\else\relax\fi}%
+%
+\def\ps@myhead{%
+  \def\@evenfoot{% Even Foot
+     \if@mparswitch\hss\fi%
+        \hbox to \fullwidth{%
+           \autoxspacing\textbf{\thepage}\hfill}%
+    \if@mparswitch\else\hss\fi}%
+  \def\@oddfoot{% Odd Foot
+        \hbox to \fullwidth{%
+           \autoxspacing\hfill\textbf{\thepage}}\hss}%
+  \def\@evenhead{% Even Head
+    \if@mparswitch \hss \fi
+    \underline{\hbox to \fullwidth{\autoxspacing
+        \leftmark\hfill\@title\draft@mark}}%
+    \if@mparswitch\else \hss \fi}%
+  \def\@oddhead{%
+     \underline{%
+        \hbox to \fullwidth{%
+          \autoxspacing\@title\hfill{\if@twoside\rightmark\else\leftmark\fi}%
+  }}{\rtume\draft@mark}\hss}%
+  \let\@mkboth\markboth
+  \def\chaptermark##1{\markboth{% chaptermark
+    \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+        \@chapapp\thechapter\@chappos\hskip1zw
+      \fi
+    \fi
+    ##1}{}}%
+  \def\sectionmark##1{\markright{% sectionmark
+    \ifnum \c@secnumdepth >\z@ \thesection \hskip1zw\fi
+    ##1}}%
+}% end of ps@myhead
+\def\ps@plainhead{%
+  \let\@mkboth\@gobbletwo
+  \def\@oddhead{\hbox to\fullwidth{\autoxspacing\hfill\rtume\draft@mark}\hss}%
+  \let\@evenhead\@empty
+  \def\@evenfoot{%
+    \if@mparswitch \hss \fi
+    \hbox to \fullwidth{\textbf{\thepage}\hfil}%
+    \if@mparswitch\else \hss \fi}%
+  \def\@oddfoot{%
+    \hbox to \fullwidth{\hfil\textbf{\thepage}}\hss}}
+%
+\let\ps@plain\ps@plainhead
+%    \end{macrocode}
+%
+% \DescribeMacro{\pagestyle}
+% ページスタイルを指定します。
+%    \begin{macrocode}
+\pagestyle{myhead}
+%    \end{macrocode}
+%
+%
+% \subsection{表紙ページのスタイルの変更}
+% 
+% \DescribeMacro{\maketitle}
+% 表題ページは章見出しと統一します。
+%    \begin{macrocode}
+\renewcommand{\maketitle}{%
+  \begin{titlepage}%
+    \parindent=0pt%
+    \let\footnotesize\small%
+    \let\footnoterule\relax%
+    \let\footnote\thanks%
+    \null\vskip3zw%
+    \hbox to \fullwidth{%
+        \huge\bfseries\@title\hfill}\par\vskip\fboxsep
+    \hrule height 1ex\par\vskip\fboxsep
+    \hbox to \fullwidth{\hfill{\large\@author}}\par
+    \hbox to \fullwidth{\hfill{\large 第{\jFileVersion}版}}\par
+    \hbox to \fullwidth{\hfill{\large\@date}}\par
+    \vfill
+    \ifx\@contact\@empty\@thanks\vfil\null%
+    \else\vfill\@contact\vskip 3ex\fi%
+  \end{titlepage}%
+\setcounter{footnote}{0}%
+\thispagestyle{empty}
+\vspace*{\fill}
+{\hfil Copyright {\copyright} 2005, 2006 渡辺徹\hfil}\\
+\begin{quotation}
+この文書をフリーソフトウェア財団発行のGNUフリー文書
+利用許諾契約書 (バージョン1.1かそれ以降から一つを選択) 
+が定める条件の下で複製，頒布，あるいは改変することを
+許可する．変更不可部分，表カバーテキスト，裏カバーテキ
+ストは指定しない．この利用許諾契約書の複製物は
+\emph{GNU Free Documentation License}\pp{GNUフリー文書
+利用許諾契約書}という章\pp{付録~\ref{label_fdl}}に
+含まれている．
+\end{quotation}
+\begin{quotation}
+本冊子に記載されている企業，団体の名前や製品名等は
+それぞれの権利帰属者の商標または商標登録であり所有物です．
+本冊子では {\texttrademark} 及び {\textregistered} は明記し
+ていません．
+\end{quotation}%
+}
+%    \end{macrocode}
+%
+% \subsection{奥付や口絵}
+% 
+% \DescribeMacro{\printokuduke}
+% 奥付を出力するための |\printokuduke| コマンドを用意します。
+%     \begin{macrocode}
+\newcommand{\printokuduke}{{%
+  \if@twocolumn \onecolumn \else \clearpage \fi
+  \thispagestyle{empty}%
+  \null\vfill
+  \parindent=0pt
+  {\LARGE\bfseries\@title\hfill}\par\vskip1zw
+  {\hfill\copyright\space\@author\space 2005, 2006}\par\vskip1zw
+  {\hrule width\textwidth height1.5pt}\par\vskip1zw
+  \begin{tabular}{ll}
+    発行日 & 2005年 05 月  29 日 第 0.1 版 配布\\
+           & 2006年 02 月  ?? 日 第 0.1a 版 配布\\
+%	   & {\@date}  第{\@FileVerjou}版 配布\\
+    編集   & {\@author}                     \\
+  \end{tabular}\hfill
+  {\hrule width\textwidth height1.5pt}%
+  }%
+}
+%    \end{macrocode}
+%
+% \DescribeMacro{\kuchie}
+% 口絵ページを出力するための命令です。
+%
+%    \begin{macrocode}
+\newcommand\kuchie{%
+  \if@openright
+    \cleardoublepage
+  \else
+    \clearpage
+  \fi
+  \@mainmatterfalse
+  \pagenumbering{Roman}}
+%    \end{macrocode}
+%
+% 
+% \subsection{その他の定義}
+% 
+% URL の定義などをします。
+%     \begin{macrocode}
+%\urldef{\webFDL}{\url}{http://www.gnu.org/copyleft/fdl.ja.html}
+%\urldef{\webDante}{\url}{http://tex.dante.jp/}
+%\urldef{\webOkumura}{\url}{http://oku.edu.mie-u.ac.jp/~okumura/texwiki/}
+%\urldef{\webJabref}{\url}{http://jabref.sourceforge.net/}
+%\urldef{\webDvipdfmx}{\url}{http://project.ktug.or.kr/dvipdfmx/}
+%\urldef{\webGoogle}{\url}{http://www.google.co.jp} 
+%\urldef{\webYatex}{\url}{http://www.yatex.org/}
+%
+\def\cleardoublepage{%
+  \clearpage
+  \if@twoside
+    \ifodd \c@page\else
+      \null\vfill
+      \thispagestyle{empty}%
+      \begin{flushright}%
+         \includegraphics[scale=.4]{images/gnu-head}%
+      \end{flushright}%
+      \clearpage
+    \fi
+  \fi
+}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+%</lll>
+\endinput
+%    \end{macrocode}
+%
+% \Finale
+

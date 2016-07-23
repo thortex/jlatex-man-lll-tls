@@ -1,0 +1,54 @@
+%\documentclass[11pt,papersize,,disablejfam,dvipdfmx]{jsbook}[2006/01/01]%
+\input{dvipdfmx.pre}
+\documentclass[draft,11pt,papersize,disablejfam,dvipdfmx]{jsbook}[2006/01/01]%
+\global \let \glossary \index
+\usepackage{lll}%
+\usepackage{cite}
+\input{changes}%
+\ifdraft\includeonly{03edit}\fi
+\begin{document}%
+\newif\ifHyper
+\makeatletter%
+\gdef \usepackage{\@ifnextchar[%
+   {\@usepackage}{\@usepackage[\@empty]}}%]
+\gdef \@usepackage[#1]#2{\@ifnextchar[%
+   {\@@usepackage}{\@@usepackage[\@empty]}}%]
+\gdef \@@usepackage[#1]{}%
+%
+\def\thepage{front.\arabic{page}}%
+\@ifundefined{texorpdfstring}{}{%
+  \pdfbookmark{表紙}{titlepage}}%
+\makeatother%
+\ifdraft%
+\else%
+\maketitle%
+\frontmatter%
+\include{01preface}% 前書き                        |
+\include{02thanx}%   謝辞                          |
+\tableofcontents%     目次                         |
+\fi%
+\mainmatter%
+\def\texorpdfstring#1#2{#1}
+%
+\newenvironment{append}{\begin{quote}\footnotesize\color{red}}{\end{quote}}
+\include{03edit}%   Emacs + YaTeX, WinShell, TeXShop, ...
+\include{04pic}%    Tgif, GIMP, MP, PSTricks, 
+\include{07img}%    ImageMagick, GhostScript
+\include{05graph}%  Ngraph, Gnuplot, Grapher
+\include{06biblio}% BibTeX mode, BibTeX bst, 
+\include{08pres}%   Prosper, PDFscreen, OOimpress, TeXpoint, 
+\include{09apply}%  Kpathsea, TDS, Web2C, babel と周辺
+\begin{appendix}%
+%
+\ifdraft%
+\else%
+\include{ap-change}% 更新履歴
+\include{ap-fdl}% GNU FDL
+\fi%
+\end{appendix}%
+\backmatter%
+%\printglossary%
+\printindex%
+\ifdraft\else\printokuduke\fi%
+\end{document}%
+%

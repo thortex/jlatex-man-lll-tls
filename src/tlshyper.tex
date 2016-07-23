@@ -1,0 +1,44 @@
+﻿\AtBeginDvi{\special{pdf:tounicode EUC-UCS2}}
+\def\hogeHyper{hoge}
+\documentclass[11pt,papersize,,disablejfam,dvipdfm]{jsbook}[2004/12/29]%
+%\documentclass[11pt,papersize,,disablejfam,dvipdfm,draft]{jsbook}[2004/12/29]%
+\usepackage{lll}%
+\begin{document}%
+\makeatletter%
+\global\let\usepackage\@gobble%
+\makeatother%
+%
+\def\thepage{front.\arabic{page}}%
+\makeatletter%                                     |
+\@ifundefined{texorpdfstring}{}{%                  |
+  \pdfbookmark{表紙}{titlepage}}%                  |
+\makeatother%                                      |
+\ifdraft%                                          |
+\else%                                             |
+\maketitle%           表紙                         |
+\frontmatter%=========前付け=======================+
+\include{01preface}% 前書き                        |
+\include{02thanx}%   謝辞                          |
+\tableofcontents%     目次                         |
+\fi%                                               |
+\mainmatter%==========本文=========================+
+\include{03text}% 文章
+\include{04math}% 数式
+\include{05float}% 図表
+\include{06apply}% 応用
+\begin{appendix}%=====付録=========================+
+\ifdraft%                                          |
+\else%                                             |
+\include{fdl}%        GNU FDL                      |
+\fi%                                               |
+\end{appendix}%                                    |
+\backmatter%==========後付=========================+
+\printglossary%       命令索引                    |
+%\ifdraft\else\input{\jobname.gls}\fi%
+\printindex%          事項索引                     |
+\ifdraft%                                          |
+\else%                                             |
+\printokuduke%        奥    付                     |
+\fi%                                               |
+\end{document}%                                    |
+%

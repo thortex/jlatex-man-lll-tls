@@ -1,0 +1,129 @@
+﻿%#!platex tls.tex
+\chapter{文献管理}
+
+\begin{abstract}
+ 
+\end{abstract}
+
+\section{\BibTeX の簡単な使い方}
+
+\BibTeX とは\Z{文献管理}用プログラムです。実際は日本語化された \JBibTeX
+を使うことになると思います。まずは具体例を見た方が早いでしょう。 2000年
+発行の渡辺徹による『これが私の生きる道』という偽物出版から出ている本を、
+参考文献として参照しているとしましょう。これを \JBibTeX の書式通りに記述
+すると \Va{file}{bib}に，
+\begin{InText}
+@book{watanabe2000a,
+  author    = {渡辺 徹},
+  yomi      = {Toru Watanabe},
+  title     = {これが私の生きる道},
+  year      = {2000},
+  publisher = {偽物出版}
+ }
+\end{InText}
+というファイルがあるとします。これを \Va{file}{tex} で
+
+\begin{InText}
+\documentclass{jarticle}
+\bibliographystyle{jplain}
+\begin{document}
+\nocite*
+\bibliography{file}
+\end{document}
+\end{InText}
+
+としてターミナルから
+\begin{InTerm}
+ \type{platex } \va{file}
+ \type{jbibtex } \va{file}
+ \type{platex } \va{file}
+ \type{platex } \va{file}
+\end{InTerm}
+
+とすれば、 \Va{file}{bbl}, \Va{file}{blg}, \Va{file}{dvi} というファイル
+が作成されるので，内容を確認してみて下さい。
+
+\begin{description}
+ \item[\Va{file}{bbl}]
+    \Va{file}{bib} から \JBibTeX が作成した \TeX 用 文献一覧
+ \item[\Va{file}{blg}]
+    \JBibTeX のログファイル
+ \item[\Va{file}{dvi}]
+    \TeX の出力ファイル
+\end{description}
+
+\Va{file}{bbl} の中身を確認すると
+\begin{InText}
+ \begin{thebibliography}{1}
+ \bibitem{watanabe2000a} 
+ 渡辺徹. \newblock これが私の生きる道. \newblock 偽物出版, 2000.
+ \end{thebibliography}
+\end{InText}
+
+となっております。これを \prog{xdvi} などで \Va{file}{dvi} を確認すると
+
+\begin{OutText}
+ {\large\gtfamily 参考文献}\\ \relax
+ [1] 渡辺徹. これが私の生きる道. 偽物出版, 2000.
+\end{OutText}
+
+となっております。
+
+
+\section{Emacs \BibTeX モード}
+
+\begin{append}
+ ここにEmacs \BibTeX モードの使い方について解説する．
+\end{append}
+
+\section{JabRef}
+
+旧 J\BibTeX Manager の後継で文献管理プログラム。 \Prog{Java} 
+で動作するため、プラットフォームに依存することはない。 
+公式サイトから本体をダウンロードする事が出来る。インストールに
+関しては本家サイトに書いているとおりだが、 Java SDK 1.4.2 
+でも導入すれば良いだろう。 JabRef 自体は Sourcefouge から
+ダウンロードできる。実行方法は
+\begin{InTerm}
+  \type{java -jar JabRef-1.7b.jar &}
+\end{InTerm}
+
+などとすれば良いだけ。Windows の場合も
+\begin{InTerm}
+ \type[]{start javaw -jar JabRef-1.7b.jar}
+\end{InTerm}
+とかいうバッチファイル \fl{JabRef.bat} を \Fl{JabRef-1.7b.jar} があるフォ
+ルダにおくだけ。
+
+文字化けするときは
+\begin{InTerm}
+ \type{java -Dfile.encoding="SJIS" -jar JabRef.jar}
+ \type{java -Dfile.encoding="EUC_JP" -jar JabRef.jar}
+\end{InTerm}
+として文字コードを指定してください。
+
+
+%\section{ama2bib}
+
+
+
+
+\section{\texorpdfstring{\BibTeX2HTML}{BibTeX2HTML}}
+
+というファイル \Va{file}{bib} が存在し
+
+ bibtex2html file.bib
+
+とすれば \Va{file}{html}, \va{file}\fl{\_bib.html} の二つのファイルが生成され
+る。 \Va{file}{html} 実際の文献一覧のファイル、 \va{file}fl{\_bib.html} は生
+の \BibTeX 形式のファイル \va{file}{bib} を HTML で閲覧できるようにした
+もの。
+
+\section{\BibTeX エントリ一覧}
+
+
+\begin{append}
+ ここにフィールドやエントリの一覧を追加する．表にまとめたり，
+分かりやすいように工夫する．
+\end{append}
+

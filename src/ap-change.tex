@@ -1,0 +1,56 @@
+﻿\chapter{更新履歴}
+
+%2006 年 8 月 xx 日にウェブ上でこの冊子の ver.~0.1 を公開しました．
+%誤植等が\kenten{たくさん}あると思います．
+
+%\section*{あれっおかしいな？と思ったら}
+この文書は私一人で執筆しておりますから，
+どこかに間違いや誤植がある確率が高くなっています．
+「あれっおかしいな？」と思う箇所がありましたら
+私のホームページ\footnote{\url{http://tex.dante.jp/}}%
+の掲示板かメールアドレス\footnote{thor(at)tex(dot)dante(dot)jp}%
+にご連絡ください．
+
+% 変更履歴専用の list 型環境 changelog
+\newenvironment{changelog}
+ {\list{}{%
+     \setlength{\leftmargin}{3zw}%
+     \setlength{\labelwidth}{0pt}%
+     \setlength{\labelsep}{0pt}%
+     \setlength{\itemsep}{0pt}%
+     \setlength{\parsep}{0pt}%
+     \let \makelabel = \releaselabel}}
+  {\endlist\ignorespacesafterend}
+
+\makeatletter
+\newcommand*{\releaselabel}[1]{%
+  \if @#1@%
+    \global\@itempenalty\z@
+  \else
+    \global\@itempenalty\@M
+    \hspace{-\leftmargin}\sffamily
+    \@releaselabel #1@%
+  \fi}
+\def\@releaselabel#1 #2@{%
+  \makebox[\leftmargin-0.5em][r]{#1}%
+  \hspace{0.5em}#2}
+\makeatother
+
+\begin{comment}
+変更履歴の執筆にあたっては，1--5 を区別して記述すること．
+ \begin{itemize} 
+  \item[削除 (deleted)]   ある要素を取り除く事．
+  \item[追加 (added)]     ある要素を新規に取り入れる事．
+  \item[加筆 (extended)]  すでにある要素の小要素を追加する事．
+  \item[修正 (revised)]   すでにある要素に変更を加える事．
+  \item[改訂 (updated)]   文書を改めて訂する事．
+  \item[誤植 (fixed bug)] 誤った記述．訂正されるべき要素．
+ \end{itemize}
+\end{comment}
+
+\begin{changelog}
+ \item[0.10 2006/08/31]
+   \item 初版を公開しました．
+ \item[0.01 2005/05/29] 
+   \item テスト版を公開しました．
+\end{changelog}

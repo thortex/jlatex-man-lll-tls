@@ -1,0 +1,377 @@
+%WinTpicVersion3.08
+\unitlength 0.1in
+\begin{picture}( 14.1000, 17.1000)(  0.0000,-17.1000)
+% VECTOR 2 0 3 0
+% 2 210 1400 210 200
+% 
+\special{pn 8}%
+\special{pa 210 1400}%
+\special{pa 210 200}%
+\special{fp}%
+\special{sh 1}%
+\special{pa 210 200}%
+\special{pa 190 268}%
+\special{pa 210 254}%
+\special{pa 230 268}%
+\special{pa 210 200}%
+\special{fp}%
+% NONE 2 0 3 0
+% 2 200 1400 1410 1390
+% 
+% VECTOR 2 0 3 0
+% 2 200 1400 1400 1400
+% 
+\special{pn 8}%
+\special{pa 200 1400}%
+\special{pa 1400 1400}%
+\special{fp}%
+\special{sh 1}%
+\special{pa 1400 1400}%
+\special{pa 1334 1380}%
+\special{pa 1348 1400}%
+\special{pa 1334 1420}%
+\special{pa 1400 1400}%
+\special{fp}%
+% STR 2 0 3 0
+% 3 1410 1320 1410 1420 1 0
+% $x$
+\put(14.1000,-14.2000){\makebox(0,0)[lt]{$x$}}%
+% STR 2 0 3 0
+% 3 60 -40 60 60 1 0
+% $y$
+\put(0.6000,-0.6000){\makebox(0,0)[lt]{$y$}}%
+% STR 2 0 3 0
+% 3 90 1510 90 1610 2 0
+% $O$
+\put(0.9000,-16.1000){\makebox(0,0)[lb]{$O$}}%
+% FUNC 2 0 3 0
+% 10 200 340 1400 1540 800 940 1400 940 800 1540 200 340 1400 1540 0 3 3 0 0 0
+% x^2
+\special{pn 8}%
+\special{pa 462 1540}%
+\special{pa 466 1528}%
+\special{pa 470 1510}%
+\special{pa 476 1494}%
+\special{pa 480 1476}%
+\special{pa 486 1460}%
+\special{pa 490 1444}%
+\special{pa 496 1428}%
+\special{pa 500 1412}%
+\special{pa 506 1396}%
+\special{pa 510 1380}%
+\special{pa 516 1366}%
+\special{pa 520 1352}%
+\special{pa 526 1336}%
+\special{pa 530 1322}%
+\special{pa 536 1308}%
+\special{pa 540 1294}%
+\special{pa 546 1280}%
+\special{pa 550 1268}%
+\special{pa 556 1254}%
+\special{pa 560 1242}%
+\special{pa 566 1230}%
+\special{pa 570 1218}%
+\special{pa 576 1206}%
+\special{pa 580 1194}%
+\special{pa 586 1182}%
+\special{pa 590 1172}%
+\special{pa 596 1160}%
+\special{pa 600 1150}%
+\special{pa 606 1140}%
+\special{pa 610 1130}%
+\special{pa 616 1120}%
+\special{pa 620 1110}%
+\special{pa 626 1100}%
+\special{pa 630 1092}%
+\special{pa 636 1084}%
+\special{pa 640 1074}%
+\special{pa 646 1066}%
+\special{pa 650 1058}%
+\special{pa 656 1050}%
+\special{pa 660 1044}%
+\special{pa 666 1036}%
+\special{pa 670 1028}%
+\special{pa 676 1022}%
+\special{pa 680 1016}%
+\special{pa 686 1010}%
+\special{pa 690 1004}%
+\special{pa 696 998}%
+\special{pa 700 992}%
+\special{pa 706 988}%
+\special{pa 710 982}%
+\special{pa 716 978}%
+\special{pa 720 974}%
+\special{pa 726 970}%
+\special{pa 730 966}%
+\special{pa 736 962}%
+\special{pa 740 960}%
+\special{pa 746 956}%
+\special{pa 750 954}%
+\special{pa 756 952}%
+\special{pa 760 948}%
+\special{pa 766 946}%
+\special{pa 770 946}%
+\special{pa 776 944}%
+\special{pa 780 942}%
+\special{pa 786 942}%
+\special{pa 790 942}%
+\special{pa 796 940}%
+\special{pa 800 940}%
+\special{pa 806 940}%
+\special{pa 810 942}%
+\special{pa 816 942}%
+\special{pa 820 942}%
+\special{pa 826 944}%
+\special{pa 830 946}%
+\special{pa 836 946}%
+\special{pa 840 948}%
+\special{pa 846 952}%
+\special{pa 850 954}%
+\special{pa 856 956}%
+\special{pa 860 960}%
+\special{pa 866 962}%
+\special{pa 870 966}%
+\special{pa 876 970}%
+\special{pa 880 974}%
+\special{pa 886 978}%
+\special{pa 890 982}%
+\special{pa 896 988}%
+\special{pa 900 992}%
+\special{pa 906 998}%
+\special{pa 910 1004}%
+\special{pa 916 1010}%
+\special{pa 920 1016}%
+\special{pa 926 1022}%
+\special{pa 930 1028}%
+\special{pa 936 1036}%
+\special{pa 940 1044}%
+\special{pa 946 1050}%
+\special{pa 950 1058}%
+\special{pa 956 1066}%
+\special{pa 960 1074}%
+\special{pa 966 1084}%
+\special{pa 970 1092}%
+\special{pa 976 1100}%
+\special{pa 980 1110}%
+\special{pa 986 1120}%
+\special{pa 990 1130}%
+\special{pa 996 1140}%
+\special{pa 1000 1150}%
+\special{pa 1006 1160}%
+\special{pa 1010 1172}%
+\special{pa 1016 1182}%
+\special{pa 1020 1194}%
+\special{pa 1026 1206}%
+\special{pa 1030 1218}%
+\special{pa 1036 1230}%
+\special{pa 1040 1242}%
+\special{pa 1046 1254}%
+\special{pa 1050 1268}%
+\special{pa 1056 1280}%
+\special{pa 1060 1294}%
+\special{pa 1066 1308}%
+\special{pa 1070 1322}%
+\special{pa 1076 1336}%
+\special{pa 1080 1352}%
+\special{pa 1086 1366}%
+\special{pa 1090 1380}%
+\special{pa 1096 1396}%
+\special{pa 1100 1412}%
+\special{pa 1106 1428}%
+\special{pa 1110 1444}%
+\special{pa 1116 1460}%
+\special{pa 1120 1476}%
+\special{pa 1126 1494}%
+\special{pa 1130 1510}%
+\special{pa 1136 1528}%
+\special{pa 1140 1540}%
+\special{sp}%
+% FUNC 2 0 3 0
+% 10 210 510 1410 1710 810 1110 1410 1110 810 510 210 510 1410 1710 0 3 3 0 0 0
+% x^2
+\special{pn 8}%
+\special{pa 472 510}%
+\special{pa 476 522}%
+\special{pa 480 540}%
+\special{pa 486 558}%
+\special{pa 490 574}%
+\special{pa 496 590}%
+\special{pa 500 608}%
+\special{pa 506 624}%
+\special{pa 510 640}%
+\special{pa 516 654}%
+\special{pa 520 670}%
+\special{pa 526 686}%
+\special{pa 530 700}%
+\special{pa 536 714}%
+\special{pa 540 728}%
+\special{pa 546 742}%
+\special{pa 550 756}%
+\special{pa 556 770}%
+\special{pa 560 784}%
+\special{pa 566 796}%
+\special{pa 570 808}%
+\special{pa 576 822}%
+\special{pa 580 834}%
+\special{pa 586 846}%
+\special{pa 590 858}%
+\special{pa 596 868}%
+\special{pa 600 880}%
+\special{pa 606 890}%
+\special{pa 610 902}%
+\special{pa 616 912}%
+\special{pa 620 922}%
+\special{pa 626 932}%
+\special{pa 630 940}%
+\special{pa 636 950}%
+\special{pa 640 960}%
+\special{pa 646 968}%
+\special{pa 650 976}%
+\special{pa 656 984}%
+\special{pa 660 992}%
+\special{pa 666 1000}%
+\special{pa 670 1008}%
+\special{pa 676 1016}%
+\special{pa 680 1022}%
+\special{pa 686 1028}%
+\special{pa 690 1036}%
+\special{pa 696 1042}%
+\special{pa 700 1048}%
+\special{pa 706 1052}%
+\special{pa 710 1058}%
+\special{pa 716 1064}%
+\special{pa 720 1068}%
+\special{pa 726 1072}%
+\special{pa 730 1076}%
+\special{pa 736 1082}%
+\special{pa 740 1084}%
+\special{pa 746 1088}%
+\special{pa 750 1092}%
+\special{pa 756 1094}%
+\special{pa 760 1098}%
+\special{pa 766 1100}%
+\special{pa 770 1102}%
+\special{pa 776 1104}%
+\special{pa 780 1106}%
+\special{pa 786 1108}%
+\special{pa 790 1108}%
+\special{pa 796 1110}%
+\special{pa 800 1110}%
+\special{pa 806 1110}%
+\special{pa 810 1110}%
+\special{pa 816 1110}%
+\special{pa 820 1110}%
+\special{pa 826 1110}%
+\special{pa 830 1108}%
+\special{pa 836 1108}%
+\special{pa 840 1106}%
+\special{pa 846 1104}%
+\special{pa 850 1102}%
+\special{pa 856 1100}%
+\special{pa 860 1098}%
+\special{pa 866 1094}%
+\special{pa 870 1092}%
+\special{pa 876 1088}%
+\special{pa 880 1084}%
+\special{pa 886 1082}%
+\special{pa 890 1076}%
+\special{pa 896 1072}%
+\special{pa 900 1068}%
+\special{pa 906 1064}%
+\special{pa 910 1058}%
+\special{pa 916 1052}%
+\special{pa 920 1048}%
+\special{pa 926 1042}%
+\special{pa 930 1036}%
+\special{pa 936 1028}%
+\special{pa 940 1022}%
+\special{pa 946 1016}%
+\special{pa 950 1008}%
+\special{pa 956 1000}%
+\special{pa 960 992}%
+\special{pa 966 984}%
+\special{pa 970 976}%
+\special{pa 976 968}%
+\special{pa 980 960}%
+\special{pa 986 950}%
+\special{pa 990 940}%
+\special{pa 996 932}%
+\special{pa 1000 922}%
+\special{pa 1006 912}%
+\special{pa 1010 902}%
+\special{pa 1016 890}%
+\special{pa 1020 880}%
+\special{pa 1026 868}%
+\special{pa 1030 858}%
+\special{pa 1036 846}%
+\special{pa 1040 834}%
+\special{pa 1046 822}%
+\special{pa 1050 808}%
+\special{pa 1056 796}%
+\special{pa 1060 784}%
+\special{pa 1066 770}%
+\special{pa 1070 756}%
+\special{pa 1076 742}%
+\special{pa 1080 728}%
+\special{pa 1086 714}%
+\special{pa 1090 700}%
+\special{pa 1096 686}%
+\special{pa 1100 670}%
+\special{pa 1106 654}%
+\special{pa 1110 640}%
+\special{pa 1116 624}%
+\special{pa 1120 608}%
+\special{pa 1126 590}%
+\special{pa 1130 574}%
+\special{pa 1136 558}%
+\special{pa 1140 540}%
+\special{pa 1146 522}%
+\special{pa 1150 510}%
+\special{sp}%
+% LINE 2 0 3 0
+% 8 880 980 760 1100 910 1010 810 1110 850 950 730 1070 800 940 700 1040
+% 
+\special{pn 8}%
+\special{pa 880 980}%
+\special{pa 760 1100}%
+\special{fp}%
+\special{pa 910 1010}%
+\special{pa 810 1110}%
+\special{fp}%
+\special{pa 850 950}%
+\special{pa 730 1070}%
+\special{fp}%
+\special{pa 800 940}%
+\special{pa 700 1040}%
+\special{fp}%
+% STR 2 0 3 0
+% 3 450 380 450 480 2 0
+% $y=f(x)$
+\put(4.5000,-4.8000){\makebox(0,0)[lb]{$y=f(x)$}}%
+% STR 2 0 3 0
+% 3 460 1780 460 1880 2 0
+% $y=g(x)$
+\put(4.6000,-17.8000){\makebox(0,0)[lb]{$y=g(x)$}}%
+% LINE 2 0 3 0
+% 2 940 1050 940 1400
+% 
+\special{pn 8}%
+\special{pa 940 1050}%
+\special{pa 940 1400}%
+\special{fp}%
+% LINE 2 0 3 0
+% 2 670 1050 670 1400
+% 
+\special{pn 8}%
+\special{pa 670 1050}%
+\special{pa 670 1400}%
+\special{fp}%
+% STR 2 0 3 0
+% 3 600 1470 600 1570 2 0
+% $x_1$
+\put(6.0000,-15.7000){\makebox(0,0)[lb]{$x_1$}}%
+% STR 2 0 3 0
+% 3 930 1490 930 1590 2 0
+% $x_2$
+\put(9.3000,-15.7000){\makebox(0,0)[lb]{$x_2$}}%
+\end{picture}%

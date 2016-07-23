@@ -1,0 +1,48 @@
+#!/usr/bin/perl -w
+
+$max_height = $max_width  = $min_height = 0;
+$min_width  = $org_height = $org_width  = 0;
+$i = $j = 0;
+$ch = 0;
+ 
+while (<>){
+    last if (/^P1/);
+    if (/^P?/){ 
+      print "Error!! Please give me correctly PGM file.\n"; 
+      exit;
+    }
+}
+
+while (<>){
+    next if (/^\#/);
+    if (/(\d+) (\d+)/){
+       $org_width = $1; 
+       $org_height = $2;
+       last;
+    }
+}
+
+$min_width = $org_width;
+$min_height = $org_height;
+
+for ($j = 0; $j < $org_height;  $j++){
+    for ($i = 0; $i < $org_width; $i++){
+       read STDIN, $ch, 1;
+       if ( $ch eq '0' ){
+       } elsif ( $ch eq '1' ){
+           if ($i < $min_width) {$min_width = $i;}
+           if ($j < $min_height){$min_height = $j;}
+           if ($i > $max_width) {$max_width = $i;}
+           if ($j > $max_height){$max_height= $j;}
+       } else {
+           $i--;
+       }
+    }
+}
+
+printf "\%\%\%\%BoundingBox: %d %d %d %d\n", 
+    $min_width - 1, $org_height - $max_height - 1, 
+    $max_width + 1, $org_height - $min_height + 1;
+
+exit;
+
